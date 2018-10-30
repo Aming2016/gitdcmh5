@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>新上好房</title>
+        <link rel="stylesheet" href="../css/reset.css">
+        <script src="../js/response.js"></script>
+        <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        header{
+            width: 100%;
+            overflow: hidden;
+        }
+        header img{
+            width: 100%;
+            vertical-align: top;
+        }
+        section{
+            padding: 0  0.24rem;
+        }
+        section>div{
+            padding: 0.6rem 0 0.1rem;
+        }
+        section p{
+            font-size: 0.3rem;
+            line-height: 1.5;
+            text-align: justify;
+            text-indent: 0.4rem;
+            margin-bottom: 0.2
+        }
+        li{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        li img{
+            width: 2.4rem;
+            height: 2rem;
+            float: left;
+            background: #e6e6e6;
+            margin-right: 0.2rem;
+        }
+        li .item-content{
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .item-title{
+            font-size: 0.32rem;
+            color: #222222;
+            line-height: 1.2;
+            /* text-align: justify; */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+        .description{
+            font-size: 0.24rem;
+            color:#666666;
+            margin-top: 0.2rem;
+            line-height:1;
+        }
+        .houseTypeInfo{
+            font-size: 0.2rem;
+            color:#666666;
+            margin-top: 0.18rem;
+            line-height:1;
+        }
+        .houseTypeInfo span{
+            margin-right: 0.2rem
+        }
+        .housePrice{
+            font-size: 0.32rem;
+            color:#ff4343;
+            margin-top: 0.2rem;
+            line-height:1;
+        }
+        .housePrice span{
+            font-size: 0.22rem;
+            color:#666666;
+            margin-left: 0.25rem;
+            
+        }
+        .houseLabel{
+            font-size:0.2rem;
+            color:#666666;
+            margin-top:0.18rem;
+            white-space:nowrap;
+        }
+        .houseLabel span{
+            margin-right:0.1rem;
+            padding:0.05rem 0.01rem;
+        }
+        .houseLabel span:nth-of-type(1){
+            background: #edf9ff;
+            color: #00a8ff;
+        }
+        .houseLabel span:nth-of-type(2){
+            background: #fff2ed;
+            color: #ff7f50;  
+        }
+        .houseLabel span:nth-of-type(3){
+            background: #ebfff3;
+            color:#00b969;
+        }
+        li>a{
+            display: flex;
+            flex-flow: row nowrap;
+        }
+        .nodate{
+            text-align: center;
+            line-height: 1rem;
+            font-size: 0.3rem;
+        }
+        .nopayload{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: #ffffff;
+        }
+        .nopayload img{
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        </style>
+</head>
+<body>
+   
+    <div id="box">
+        <header>
+            <img src="./imgs/bg2.png" alt="">
+        </header>
+        <section>
+            <!-- 新上好房 -->
+            <div>
+                <p>就算你已经挑花了眼，但那也不是你的错，佛系一点说就是缘分没到。
+                我们坚信和你八字相合、气场吻契、一眼钟情的房子并没错过，还在前方等着你，关注世华易居的新上好房，确认过眼神，遇上对的房。</p>
+            </div>
+            <ul v-show="houseList.length">  
+                <li v-for="item in houseList" :data-sdid="item.sdid" @click="startAPP($event)">
+                    <img :src="item.housePic">
+                    <div class="item-content">
+                        <div class="item-title">{{item.houseTitle}}</div>
+                        <div class="description">{{item.areaName}} {{item.districtName}} {{item.houseDirection}}</div>                        
+                        <div  class="houseTypeInfo">
+                            <span>{{item.houseType}}</span>{{item.builtArea}}m²
+                        </div>
+    
+                            <div class="houseLabel">
+                                <span v-for="item2 in item.houseTag">{{item2}}</span>
+                            </div>
+    
+                        <div class="housePrice">{{item.saleTotal}}万
+                            <span>{{item.salePrice}}元/平</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section> 
+        <div class="nopayload"  v-show="!houseList.length"><img src="./imgs/loading.gif"></div>
+    </div>
+    <!-- 屏蔽广告 -->
+    <script src="../js/shield.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/axiosurl.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <!-- 微信sdk -->
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data:{
+                houseList: [],
+                flagPrice: true,
+                city: 'beihai',
+                type: '',//判断端的类型
+                id: 1,//判断板块的类型
+                sdid: '',
+                url: null,
+            },
+            created() {
+                try{
+                    var url = location.href;
+                    var urlparams = this.parseUrl(url);
+                    this.city = urlparams.cityName;
+                    this.type = urlparams.type.toLowerCase();
+                }catch(err){}
+                this.houseListRequest(this.city);
+            },
+            methods: {
+                //请求
+                houseListRequest() {
+                    let params = {pageNo: 1,scity: this.city};
+                    axios.post(TWOHOUSELIST,params,{
+                        headers:{
+                            'Content-Type': "application/json;charset=UTF-8",
+                            'scity': this.city,
+                        }
+                    })
+                    .then((res) => {
+                        res.data.data.forEach((item) => {
+                            item.houseTag = item.houseTag.split(',');
+                        })
+                        this.houseList = res.data.data;
+                    })
+                },
+                /*
+                * 所有跳转到h5页面的传参统一以下:
+                * @cityName 城市名称
+                * @sdid 房源编号(没有传空)
+                * @id 板块编号(没有传空)
+                * @type 运行平台(android ios web)
+                * @token token(我这边进行取舍) 
+                */ 
+                // 跳转
+                startAPP(e) {
+                    var sdid = e.currentTarget.dataset.sdid;
+                    this.url = "scheme://host/pathPrefix?cityName="+this.city+"&sdid="+sdid+"&id=1"+"&type="+this.type; 
+                    switch(this.type){
+                        case 'web': return location.href = "http://custapp.shyj.cn/rentingitem/"+sdid+"?id=1"; 
+                        case 'ios': return location.href = this.url;  
+                        case 'android': return location.href = this.url;
+                        case 'wx': return this.wx(sdid);
+                    }
+                },
+                wx(sdid) {
+                    var newUrl =  "../houseDetail/houseDetail?id="+sdid+"&scity="+this.city; 
+                    wx.miniProgram.navigateTo({url: newUrl})
+                },
+                //解析url
+                parseUrl(url) {
+                    try{
+                        var urlStr=url.split("?")[1].split("&");
+                        var urlparams = {};
+                        for( let i=0;i<urlStr.length;i++){
+                            var item = urlStr[i].split("=")
+                            urlparams[item[0]]=item[1]
+                        }
+                        return urlparams;
+                    }
+                    catch(err){}
+                }  
+            }
+        })        
+    </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购房指南</title>
+    <script>
+        window.onload=window.onresize=function() {
+            var wWidth = window.innerWidth;
+            if(wWidth>=414) wWidth = 414;
+            document.getElementsByTagName("html")[0].style.fontSize = wWidth/750 * 100 + 'px';
+        }
+    </script>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/mescroll.min.css">
+    <link rel="stylesheet" href="./css/guideHand.css">
+</head>
+<body>
+    <div id="box">
+        <nav>
+            <ul class="menu">
+                <li v-for="(item,index) in menudata" 
+                    :class="selectNum==index?'bgColor':''"
+                    @click="selectItem(index)">{{item.name}}</li>
+            </ul>
+        </nav>
+        <section>
+            <div id="mescroll" class="mescroll">
+                <ul id="dataList" class="list">
+                    <li v-for="(item,index) in pdlist.infoContentList" @click="detialh5page(index)">
+                        <div class="content">
+                            <p>{{item.title}}</p>
+                            <p class="time">{{item.publishDateTime|timefilter}}</p>
+                        </div>
+                        <img :src="item.imageUrl">
+                    </li>
+                </ul> 
+            </div>
+        </section>
+        <div class="nopayload"  v-show="!pdlist"><img src="./imgs/loading.gif"></div>
+    </div>
+    <!-- axios库 -->
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/axiosurl.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/mescroll.min.js"></script>
+    
+    <!-- 微信sdk -->
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data:{
+                mescroll: null,
+                menudata: ['准备买房','看房/选房','签约/订房','全款/贷款','缴税/过户','入住/交接'],
+                pdlist: [],
+                pdlist2: [],
+                selectNum: 0,
+                urlparams: null,
+                page: 1,
+                type: '',
+                city: 'beihai'
+            },
+            mounted(){
+				//解析: 下拉回调默认调用mescroll.resetUpScroll(); 而resetUpScroll会将page.num=1,再执行up.callback,从而实现刷新列表数据为第一页;
+				var self = this;
+				self.mescroll = new MeScroll("mescroll", { //请至少在vue的mounted生命周期初始化mescroll,以确保您配置的id能够被找到
+					up: {
+						callback: self.upCallback, //上拉回调
+						isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+						empty:{ //配置列表无任何数据的提示
+							warpId:"dataList",
+							icon : "imgs/imgs.jpg" , 
+						  	tip : "亲,暂无相关数据哦~" , 
+						  	btntext : "去逛逛 >" , 
+						  	btnClick : function() {
+						  		alert("点击了去逛逛按钮");
+						  	} 
+						}
+					}
+				});
+            },
+            filters:{
+            	timefilter(val){
+                    let fmt  = "yyyy-MM-dd hh:mm:ss";
+                    let date = new Date(val);
+            		var o = {   
+                        "M+" : date.getMonth()+1,                 //月份   
+                        "d+" : date.getDate(),                    //日   
+                        "h+" : date.getHours(),                   //小时   
+                        "m+" : date.getMinutes(),                 //分   
+                        "s+" : date.getSeconds(),                 //秒   
+                        "q+" : Math.floor((date.getMonth()+3)/3), //季度   
+                        "S"  : date.getMilliseconds()             //毫秒   
+                    };   
+                    if(/(y+)/.test(fmt))   
+                        fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));   
+                    for(var k in o)   
+                        if(new RegExp("("+ k +")").test(fmt))   
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+                    return fmt; 
+            	}
+            },
+            created() {
+                try{
+                    var url = location.href;
+                    var urlparams = this.parseUrl(url);
+                    this.city = urlparams.cityName;
+                    this.type = urlparams.type.toLowerCase();
+                }catch(err){}
+            },
+            methods:{
+                selectItem(index) {
+                    this.selectNum = index;
+                    this.page = 1;
+                    this.pdlist = this.pdlist2[index];    
+                    this.upCallback();                
+                },
+                detialh5page(index) {
+                    var url = this.pdlist.infoContentList[index].contentUrl;
+                    var params = this.parseUrl(url);
+                    location.href="../detailpage/guideDetail.html?id="+params.id;
+                    // if(this.type == 'wx'){
+                    //     this.wx(params.id);
+                    // }
+                },
+                // 传值给wx
+                wx(num) {
+                    var http = "https://custh5s.shyj.cn/detailpage/guideDetail.html";
+                    wx.miniProgram.navigateTo({url: `../h5Pages/h5Pages?newHouseId=${num}&redirect=${http}`});
+                },
+				upCallback() {
+                    let page = this.page++;
+                    let index = this.selectNum;
+                    this.guideDataRequest(page, index);
+                },
+                guideDataRequest(page, selectNum) {
+                    axios.get(GUIDEHAND, {
+                        params: {
+                            'pageNo': page
+                        },
+                        headers: {'Content-Type': "application/json;charset=UTF-8",'scity': this.city},
+                    })
+                    .then(res=>{
+                        console.log(res)
+                        var arr = res.data.data;
+                        this.menudata = arr;
+                        this.pdlist = arr[selectNum];
+                        this.pdlist2 = arr;
+                        this.mescroll.endErr();
+                    })
+                    .catch(err=>{
+                        this.mescroll.endErr();
+                    })
+                },
+                parseUrl(url) {
+                    var urlStr=url.split("?")[1].split("&");
+                    var urlparams = {};
+                    for( let i=0;i<urlStr.length;i++){
+                        var item = urlStr[i].split("=")
+                        urlparams[item[0]]=item[1]
+                    }
+                    return urlparams;
+                }
+            }
+        }) 
+    </script>
+</body>
+</html>

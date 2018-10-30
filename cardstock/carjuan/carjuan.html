@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>积分兑换</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="./css/carjuan.css">
+</head>
+
+<body>
+    <div id="box">
+        <!-- <header>
+            <div>积分兑换</div>
+            <div class="back" @click="back()"></div>
+        </header> -->
+        <section>
+            <div class="content">
+                <div class="img">
+                    <img :src="cardstock.imageUrl" alt="">
+                </div>
+                <div>{{cardstock.name}}</div>
+                <div>积分: {{cardstock.needScore}}分</div>
+                <div class="gray">已兑{{cardstock.soldNumber}}个</div>
+                <div class="compouter">
+                    <div class="lostBtn" @click="lostBtn()"></div>
+                    <input type="number" :placeholder="defaultNum" readonly/>
+                    <div class="addBtn" @click="addBtn()"></div>
+                </div>
+            </div>
+        </section>
+        <button class="confirm" @click="confirm()">确定</button>
+
+        <div class="warp" v-show="warpbol">
+            <transition name="fade">
+                <div v-show="warpbol" style="width: 100%;height: 100%;" @click.self="warpbol=false">
+
+                    <div class="warpboxtwo">
+                        <p>积分兑换</p>
+                        <div>
+                            <input type="text" placeholder="请输入验证码" v-model="codename">
+                            <p @click="codebtn" :class="{codeclass:btnname!='获取验证码'}">{{btnname}}</p>
+                        </div>
+                        <div>
+                            <p @click.stop="btntwo">取消</p>
+                            <p @click.stop="btnthree">确定</p>
+                        </div>
+                    </div>
+                    <img @click="btntwo" src="imgs/warpnide.png" alt="">
+                </div>
+            </transition>
+        </div>
+
+    </div>
+    <!-- 屏蔽广告 -->
+    <script src="../../js/shield.js"></script>
+    <script src="../../js/response.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script src="../../js/axiosurl.js"></script>
+    <script src="../../js/vue.min.js"></script>
+    <script src="../../js/md5.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data: {
+                navactive: "0",
+                warpbol: false,
+                dataname: "卡卷",
+                btnname: "获取验证码",
+                defaultNum: 1,
+                navlist: ["待使用", "已使用", "已过期"],
+                cardstock: "",
+                token: window.localStorage.token_h5,
+                scity: window.localStorage.scity_h5,
+                mobile: "",
+                codename:"",
+            },
+            created() {
+                this.cardstock = JSON.parse(window.localStorage.cardstock)
+                this.querys();
+            },
+            methods: {
+                //增加按钮
+                addBtn: function () {
+                    if (this.defaultNum < 5) {
+                        this.defaultNum += 1;
+                    } else {
+                        alert("兑换数量不能大于5个")
+                    }
+                },
+                lostBtn: function () {
+                    if (this.defaultNum > 1) {
+                        this.defaultNum -= 1;
+                    }
+                },
+                //确定
+                confirm: function () {
+                    if (this.defaultNum <= 5) {
+                        this.warpbol = true;
+                    } else {
+                        alert("兑换数量不能大于5个")
+                    }
+
+                },
+                codebtn() {
+                    //发送验证码
+                    var str = this.mobile + CODEKEY;
+                    var strone = md5(str);
+                    if (this.btnname == "获取验证码"){
+                        axios.post(ADDCODE, {
+                                mobile: this.mobile,
+                                sign: strone,
+                                operateType: "SCORE_EXCHANGE_COUPON"
+                            })
+                            .then(res => {
+                                if (res.status == "200") {
+                                    this._codebtn();
+                                    alert("已发送验证码，请注意查收")
+                                   
+                                } else {
+                                    alert(res.data.msg)
+                                }
+                            })
+                            .catch(() => {
+                                alert("发送失败")
+                            });
+                    }
+                },
+                _codebtn() {
+                    var time = 60;
+                    var t1 = setInterval(() => {
+                        this.btnname = time + "s";
+                        time--;
+                        if (time == "-2") {
+                            clearInterval(t1);
+                            this.btnname = "获取验证码";
+                        }
+                    }, 1000);
+                },
+                querys() {
+                    axios.get(MYDATA, {
+                        headers: { 'unique-code': this.token, 'scity': this.scity },
+                    })
+                        .then(res => {
+                            this.mobile = res.data.data.mobile
+                        })
+                },
+                warpbtn: function () {
+                    this.warpbol = true;
+                },
+                btntwo: function () {
+                    this.warpbol = false;
+                },
+                btnthree: function () {
+                    if(this.codename){
+                        this._querystwo();
+                    }else{
+                        alert("请输入验证码")
+                    }
+                    this.warpbol = false;
+                },
+                _querystwo(){
+                    axios.post(EXCHANGE+"?exchangeId="+this.cardstock.exchangeId+"&number="+this.defaultNum+"&smsCode="+this.codename,{},{
+                        headers: { 'unique-code': this.token, 'scity': this.scity },
+                    })
+                    .then(res=>{
+                        if(res.data.status){
+                            alert("兑换成功")
+                            window.history.go(-1);
+                        }else{
+                            alert(res.data.msg)
+                        }
+                    })
+                    .catch(()=>{
+                        alert("兑换失败")
+                    })
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

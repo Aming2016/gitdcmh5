@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>问题详情</title>
+    <script>
+        window.onload=window.onresize=window.onpageshow=function() {
+            var wWidth = window.innerWidth;
+            if(wWidth>=414) wWidth = 414;
+            document.getElementsByTagName("html")[0].style.fontSize = wWidth/750 * 100 + 'px';
+        }
+    </script>
+    <link rel="stylesheet" href="../css/reset.css">
+    <style>
+        body{background: #f9f9f9}
+        header{
+            padding: 0.5rem 0.24rem 0.4rem; 
+            background: #ffffff;
+        }
+        header h3{
+            font-size: 0.36rem;
+            color: #222222;
+            line-height: 1.5;
+            padding-right: 0.22rem;
+        }
+        header p{
+            font-size: 0.3rem;
+            color: #999999;
+            line-height: 1.5;
+            margin: 0.3rem 0;
+            padding-right: 0.22rem;
+        }
+        .tag{
+            overflow: hidden;
+            margin-bottom: 0.4rem
+        }
+        .tag span{
+            padding: 0.1rem 0.1rem;
+            font-size: 0.2rem;
+            color: #999999;
+            background: #f2f2f2 ;
+            float: left;
+            margin-right: 0.1rem;
+            border-radius: 0.1rem;
+        }
+        .description{
+            display: flex;
+            border-top: 1px solid #e6e6e6;
+            padding:0.4rem 0 0;
+            flex-flow: row nowrap;
+            justify-content:  center;
+            align-items: space-around;
+            box-sizing: border-box;
+            background: #ffffff;
+        }
+        .description .two{
+            flex: 1.8rem 0 0;
+            width: 1.8rem;
+            font-size: 0.26rem;
+            text-align: center;
+        }
+        .description .one{
+            flex: 1;
+            font-size: 0.26rem;
+        }
+        .star{
+            width: 0.3rem;
+            height: 0.3rem;
+            margin: 0 auto 0.16rem;
+        }
+        .star img{
+            width: 100%;
+            height: 100%;
+        }
+        section{
+            margin-top: 0.2rem;
+            background: #ffffff;
+        }
+        .title{
+            font-size: 0.26rem;
+            color: #999999;
+            height: 0.85rem;
+            line-height: 0.85rem;
+            padding:0 0.25rem;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        .userInfo{
+            display: flex;
+            flex-flow: row nowrap;
+            padding: 0.4rem 0.25rem 0.4rem;
+            align-items:center;
+        }
+        .userInfo .img{
+            flex: 1rem 0 0;
+            width: 1rem;
+            height: 1rem;
+            background: url('./imgs/avatar.png') no-repeat center center;
+            border-radius: 50%;
+            margin-right: 0.2rem;
+            overflow: hidden;
+        }
+        .userInfo .img img{
+            width: 100%;
+            height: 100%;
+        }
+        .user{
+            flex:1;
+            font-size: 0.34rem;
+        }
+        .user>div:not(:last-child){
+            float: right;
+            margin-left: 0.6rem; 
+        }
+        .message,
+        .telphone{
+            width:0.33rem;
+            height: 0.34rem;
+        }
+        .message img,
+        .telphone img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .flag{
+            height: 0.4rem;
+            line-height: 0.4rem;
+            width: 0.95rem;
+            text-align: center;
+            font-size: 0.22rem;
+            border-radius: 0.1rem;
+            
+        }
+        .gray{
+            background: #f2f2f2;
+            color: #999999;
+        }
+        .red{
+            background: #ffecec;
+            color: #ff4343;
+        }
+        .name{
+            white-space: nowrap;
+        }
+        .answers{
+            margin: 0  0.25rem 0.4rem; 
+            border-bottom: 1px solid #e6e6e6;
+        }
+        .answersTime{
+            font-size: 0.22rem;
+            color: #999999;
+        }
+        .answersTime+p{
+            padding: 0 0.24rem 0.5rem 0;
+            font-size: 0.3rem;
+            line-height: 1.5;
+        }
+        .answers h4{
+            font-size: 0.3rem;
+            padding-bottom: 0.4rem;
+        }
+        .nodate{
+            text-align: center;
+            line-height: 1rem;
+            font-size: 0.3rem;
+        }
+        .nopayload{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: #ffffff;
+        }
+        .nopayload img{
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+                
+    </style>
+</head>
+<body>
+    <div id="box">
+        <header>
+            <h3>{{dataDetail.problemTitle}}</h3>
+            <p>{{dataDetail.problemDescribe}}</p>
+            <div class="tag">
+                <span v-for="item in dataDetail.label">{{item}}</span>
+                <!-- <span>交易过户</span> -->
+            </div>
+            <div class="description">
+                <div class="one">
+                    <div style="margin-bottom:0.16rem">{{dataDetail.memberId}}</div>
+                    <div v-cloak>发布于: {{dataDetail.pubTime|timefilter}}</div>
+                </div>
+                <div v-if="isToken">
+                    <div class="two" v-if="addLike == 'cancel'" @click="togglelike()">
+                        <div class="star"><img src="imgs/star-off.png"></div>
+                        <div>取消关注</div> 
+                    </div>
+                    <div class="two" v-if="addLike == 'concern'" @click="togglelike()">
+                        <div class="star"><img src="imgs/star-on.png"></div>
+                        <div>关注</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="title">共{{dataDetail.answerNum}}个回答</div>
+            <ul>
+                <!-- dataDetail.problemAnswers -->
+                <li v-for="(item,index) in dataDetail.problemAnswers">
+                    <div class="userInfo">
+                        <div class="img"><img :src="item.photo"></div>
+                        <div class="user">
+                            <div class="message"><a :href="'sms:'+item.phone"><img src="imgs/duanxin.png"></a></div>
+                            <div class="telphone"><a :href="'tel:'+item.phone"><img src="imgs/phone.png"></a></div>
+                            
+                            <!-- 已经是采纳的 只显示采纳-->
+                            <div v-if="item.whetherAdopt=='YES'?true:false">
+                                <div class="flag red">已采纳</div>
+                            </div>
+
+                            <!-- 未采纳的 不是问题发起人登录 不显示 换句话说未采纳是给问题发起人看的-->
+                            <div v-if="item.status == 2">
+                                <!-- 且是问题发起人 且登录状态的有权限添加已采纳 一经采纳不能更改 -->
+                                <div class="flag gray" v-if="agreetIndex==index?false:true"  @click="toggleAgree(item,index)">待采纳</div>
+                            </div>
+
+                            <div class="name">{{item.consultantName}}</div>
+                        </div>
+                    </div>
+                    <div class="answers">
+                        <div class="answersTime">{{item.answerTime}}</div>
+                        <p>{{item.answerContent}}</p>
+                        <!-- 这句话也是给问题发起人看的 -->
+                        <h4 v-if="item.status==2&&agreetIndex==null?true:false">希望能帮到您！回答满意请点赞采纳！</h4>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <div class="nopayload"  v-show="!dataDetail"><img src="./imgs/loading.gif"></div>
+    </div>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/axiosurl.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+                el: '#box',
+                data: {
+                    dataDetail: {},
+                    urlparams: null,
+                    city: '',
+                    contProblemId: '',
+                    addLike: null,//是否关注
+                    agreetIndex: null,//是否采纳(一经采纳,便不在做更改)
+                    token: null,//token值
+                    isToken: false,//是否有token
+                },
+                created() {
+                    let url = location.href;
+                    try{
+                        this.urlparams = this.parseUrl(url);
+                        this.contProblemId = this.urlparams.id;
+                        this.city =  this.urlparams.cityName;
+                        this.token =  this.urlparams.token;
+                        if(!this.urlparams.token) {
+                            this.isToken = false;
+                        }else{
+                            this.isToken = true;
+                            this.token =  this.urlparams.token;
+                        }
+                    }catch(e){};
+                    this.answersDetialRequest();
+                },
+                filters:{
+                    timefilter(val){
+                        let d = new Date(val);
+                        let year = d.getFullYear();
+                        let month = (d.getMonth()+1)>9?(d.getMonth()+1).toString():'0' +(d.getMonth()+1);
+                        let date = d.getDate()>9?d.getDate().toString():'0' + d.getDate();
+                        return year + '-'+month + '-'+date;
+                    }
+                },
+                methods: {
+                    togglelike() {
+                        this.addLike == 'cancel'
+                        ? this.addLike = 'concern'
+                        : this.addLike = 'cancel';
+                        this.look();
+                    },
+                    //选择采纳
+                    toggleAgree(item, index) {
+                        //仅仅只操作一次
+                        if(this.agreetIndex==null) {
+                            this.agreetIndex = index;
+                            //采纳请求
+                            this.greet(item);
+                            //刷新页面
+                            this.answersDetialRequest();
+                        } 
+                    },
+                    //回答列表
+                    answersDetialRequest() {
+                        axios.get(PROBLEMINFO+"?contProblemId="+this.contProblemId,{
+                            headers:{
+                                'Content-Type': "application/json;charset=UTF-8",
+                                'scity': this.city
+                            },
+                            params: {
+                                scity: this.city
+                            }
+                        })
+                        .then(res=> {
+                            let newData = res.data.data;
+                            try{
+                                newData.label = newData.label.split(',');
+                            }catch(e){}
+                            //是否已经关注
+                            this.addLike = res.concernStatus=="YES"?'cancel':'concern'; 
+                            this.dataDetail = newData;
+                        })
+                    },
+                    //关注
+                    look() {
+                        let url = LOOK+"?contProblemId="+this.contProblemId+"&state="+this.addLike;
+                        axios({  
+                            method:"put",  
+                            url:url,  
+                            data:{},  
+                            headers:{  
+                                'scity': this.city,
+                                'token': this.token
+                            }
+                        }).then(res=>{
+                            console.log(res)
+                        })
+                    }, 
+                    //采纳
+                    greet(item) {
+                        let url = AGREET+"?contProblemId="+this.contProblemId+"&problemAnswerId="+item.contProblemId;
+                        axios({  
+                            method:"put",  
+                            url:url,  
+                            data:{},  
+                            headers:{  
+                                'scity': this.city
+                            }
+                        }).then(res=>{
+                            console.log(res)
+                        })
+                    },
+                    // 解析url
+                    parseUrl(url) {
+                        var urlStr=url.split("?")[1].split("&");
+                        var urlparams = {};
+                        for( let i=0;i<urlStr.length;i++){
+                            var item = urlStr[i].split("=")
+                            urlparams[item[0]]=item[1]
+                        }
+                        return urlparams;
+                    }
+                       
+
+                }
+            })
+    </script>
+</body>
+</html>

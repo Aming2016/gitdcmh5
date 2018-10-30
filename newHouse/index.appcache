@@ -1,0 +1,9 @@
+CACHE MANIFEST
+
+#v1.0.0 Author: 徐横峰
+/*/imgs/*.jpg
+
+NETWORK: *
+
+
+FALLBACK:

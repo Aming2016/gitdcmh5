@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>计算器</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <script src="../js/response.js"></script>
+    <style>
+        html,body{width: 100%;height: 100%;background: #fff}
+        /* 头部 */
+        header{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-around;
+            padding: 0 1.3rem;
+            border-bottom:1px solid #666666;
+            position: relative;
+        }
+        header div{
+            font-size: 0.28rem;
+            height: 1rem;
+            line-height: 1rem;
+            flex: 1.4rem 0 0;
+            width: 1.4rem;
+            text-align: center;
+        }
+        li{
+            margin: 0 0.3rem;
+            font-size: 0.3rem;
+            border-bottom:1px solid #e6e6e6;
+            height: 1rem;
+            line-height: 1rem;
+            position: relative;
+        }
+        .price>span{
+            float: right;
+            margin-right:0.3rem;
+            color: #999999;
+            margin-right:0
+        }
+        li input{
+            position: absolute;
+            width: 60%;
+            top: 50%;
+            right: 0.35rem;
+            text-align: right;
+            transform: translateY(-50%);
+            outline: none;
+            color: #000000;
+        }
+        ::placeholder {
+            color: #999999;
+        }
+        li img{
+            position: absolute;
+            top: 50%;
+            width: 0.18rem;
+            height: 0.32rem;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        .computer{
+            display: block;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            text-align: center;
+            width: 6rem;
+            margin: 1rem auto 2rem;
+            border: 0;
+            background: #ff4343;
+            color: #ffffff;
+            font-size: 0.36rem;
+            border-radius: 0.1rem;
+            outline: none;
+        }
+        .tips{
+            font-size: 0.25rem;
+            color: #e6e6e6;
+            text-align: left;
+            padding: 0.3rem 0.3rem 0;
+        }
+        /* 自定义利率 */
+        .ownrate{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.3rem;
+            height: 1rem;
+            line-height: 1rem;
+            padding: 0 0.3rem;
+            background: #ffffff;
+        }
+        .ownrate input{
+            width: 30%;
+            outline: none;
+            background: #f5f5f5;
+            padding: 0.13rem;
+            border-radius: 0.2rem;
+        }
+        .ownrate button{
+            margin-left: 15%;
+            padding:  0.1rem 0.2rem;
+            border: 1px solid #ff4343;
+            border-radius: 0.2rem;
+            background: #ffffff;
+            color: #ff4343;
+            outline: none;
+        }
+        /* 脚步 */
+        .shadow{
+            display: none;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            overflow: hidden;
+            background: rgba(0,0,0,0.5);
+        }
+        .dialog{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .dialog>div{
+            height: 5.5rem;
+            background: #ffffff;
+        }
+        .dialog ul{
+            height: 4.6rem;
+            overflow-y: auto;
+        }
+        .dialog .title{
+            font-size: 0.3rem;
+            border-bottom:1px solid #e6e6e6;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            text-align: center;
+        }
+        .dialog .title span{
+            position: absolute;
+            font-size: 0.25rem;
+            right: 0;
+            width: 20%;
+            height: 1rem;
+        }
+        .dialog li{
+            margin: 0 0 0 0.3rem;
+            height: 0.9rem;
+            line-height: 0.9rem;
+        }
+        /* 动态类 */
+        .activeNav{
+            color: #fe0000;
+            border-bottom: 1px solid #fe0000;
+        }
+        .color1{
+            color: #ff4343!important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>公积金贷款</div>
+        <div class="activeNav">商业贷款</div>
+        <div>组合贷款</div>
+    </header>
+    <!-- 公积金贷款 -->
+    <section id="one" style="display: none">
+        <ul>
+            <!-- 按贷款总额 -->
+            <li class="calc">计算方式<input readonly  value="按贷款总额"/><img src="imgs/arrows.png"/></li>
+            <ol style="display: none"><!-- 按房价总额 -->
+                <li class="price">房价总额<input type="number" value="0"/><span>万</span></li>
+                <li class="rate3">贷款比例<input readonly value="7成"/><img src="imgs/arrows.png"/></li>
+            </ol>
+            <li class="price">贷款总额<input type="number" value="0"/><span>万</span></li>
+            <li class="year">贷款年限<input readonly value="30年" /><img src="imgs/arrows.png"/></li>
+            <li class="rate1">贷款利率<input readonly value="最新基准利率(3.25%)"/><img src="imgs/arrows.png"/></li>
+        </ul>
+        <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+    </section>
+    <!-- 商业贷款 -->
+    <section id="two" style="display: block">
+        <ul><!-- 按房价总额 -->
+            <li class="calc">计算方式<input readonly  value="按贷款总额"/><img src="imgs/arrows.png"/></li>
+            <ol style="display: none"><!-- 按房价总额 -->
+                <li class="price">房价总额<input type="number" value="0"/><span>万</span></li>
+                <li class="rate3">贷款比例<input readonly value="7成"/><img src="imgs/arrows.png"/></li>
+            </ol>
+            <li class="price">贷款总额<input type="number" value="0"/><span>万</span></li>
+            <li class="year">贷款年限<input readonly value="30年"/><img src="imgs/arrows.png"/></li>
+            <li class="rate2">贷款利率<input readonly value="最新基准利率(4.9%)"/><img src="imgs/arrows.png"/></li>
+        </ul>
+        <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+    </section>
+    <!-- 组合贷款 -->
+    <section id="three" style="display: none">
+        <ul>
+            <!-- 按贷款总额 -->
+            <li class="calc">计算方式<input readonly value="按贷款总额"/><img src="imgs/arrows.png"/></li>
+            <ol style="display: none"><!-- 按房价总额 -->
+                <li class="price">房价总额<input type="number" value="0"/><span>万</span></li>
+                <li class="rate3">贷款比例<input readonly value="7成"/><img src="imgs/arrows.png"/></li>
+            </ol>
+            <li class="price">贷款总额<input type="number" value="0"/><span>万</span></li>
+            <li class="price">公积金贷款<input type="number" value="0"/><span>万</span></li>
+            <li class="rate1">公积金利率<input readonly value="最新基准利率(3.25%)"/><img src="imgs/arrows.png"/></li>
+            <li class="price">商业贷款<input type="number" value="0"/><span>万</span></li>
+            <li class="rate2">商贷利率<input readonly value="最新基准利率(4.9%)"/><img src="imgs/arrows.png"/></li>
+            <li class="year">贷款年限<input readonly value="30年"/><img src="imgs/arrows.png"/></li>
+        </ul>
+        <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+    </section>
+
+    <!-- 计算 -->
+    <section style="display: block">
+        <button class="computer">开始计算</button>
+    </section>
+
+    <!-- 对应的展开项 -->
+    <footer>
+        <!-- 蒙层 -->
+        <div class="shadow"></div>                  
+        <div class="dialog">
+            <!-- 扩展列表项    -->
+            <!-- 计算方式 -->
+            <div id="dialogOne" style="display: none">
+                <div class="title">计算方式<span id="cancel">取消</span></div>
+                <ul>
+                    <li class="color1">按贷款总额</li>
+                    <li>按房价总额</li>
+                </ul>
+            </div>
+            <!-- 贷款年限 -->
+            <div id="dialogTwo" style="display: none">
+                <div class="title">贷款年限<span id="cancel">取消</span></div>
+                <ul>
+                    <!-- append -->
+                </ul>
+            </div>
+            <!-- 公积金贷款利率 -->
+            <div id="dialogThree" style="display: none">
+                <div class="title">贷款利率<span id="cancel">取消</span></div>
+                <ul>
+                    <li class="color1">最新基准利率</li>
+                    <li>最新基准利率1.1倍</li>
+                    <li>最新基准利率1.2倍</li>
+                </ul>
+                <div class="ownrate">
+                    自定义利率:<input placeholder="输入自定义利率"/>%<button>确定</button>
+                </div>
+            </div>
+            <!-- 商业贷款利率 -->
+            <div id="dialogFour" style="display: none">
+                <div class="title">贷款利率<span id="cancel">取消</span></div>
+                <ul>
+                    <!-- append -->
+                </ul>
+                <div class="ownrate">
+                    自定义利率:<input placeholder="输入自定义利率"/>%<button>确定</button>
+                </div>
+            </div>
+            <!-- 贷款比例 -->
+            <div id="dialogFive" style="display: none">
+                <div class="title">贷款比例<span id="cancel">取消</span></div>
+                <ul>
+                    <!-- append -->
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+       'use strict';
+        //初始值
+        var calcType=0;//计算方式 0表示房价计算  1表示贷款总额计算
+        var years=30;//贷款年限
+        var rate1=null;//公积金贷款利率
+        var rate2=null;//商业贷款利率
+        var rate3=null;//贷款比例
+        
+        //公积金贷款利率
+        var rate11Num=[2.75, 3.02, 3.3]; //1-5年的
+        var rate12Num=[3.25, 3.57, 3.9]; //6年以上的
+
+        //商业贷款利率
+        var rate21Arr=['','9.5折','9折','8.8折','8.7折','8.6折','1.1倍','1.2倍','1.3倍',''];//商业贷款利率
+        var rate21Num=[4.35, 4.13, 3.91, 3.83, 3.78, 3.74, 4.78, 5.22, 5.66];//1年的
+        var rate22Num=[4.75, 4.51, 4.28, 4.18, 4.13, 4.08, 5.22, 5.7, 6.18];//2-5年的
+        var rate23Num=[4.9, 4.66, 4.41, 4.31, 4.26, 4.21, 5.39, 5.88, 6.37];//6年以上的
+
+        //房价贷款比例
+        var rate31Arr=['2成','3成','4成','5成','6成','7成','8成'];//贷款比例
+        var rate31Num=[2,3,4,5,6,7,8]
+
+        // nav内容切换
+        $('header>div').click(function(){
+            var index = $(this).index();
+            $(this).addClass('activeNav').siblings().removeClass('activeNav');
+            switch(index){
+                case 0: 
+                    $('#one').show();
+                    $('#two').hide();
+                    $('#three').hide();
+                break;
+                case 1: 
+                    $('#one').hide();
+                    $('#two').show();
+                    $('#three').hide();
+                break;
+                case 2: 
+                    $('#one').hide();
+                    $('#two').hide();
+                    $('#three').show();
+                break;
+            }
+        });
+
+
+
+        // 扩展项内容显示
+        //计算方式
+        $('.calc').click(function(){
+            $('.shadow').show();
+            $('#dialogOne').show().siblings().hide();
+        });
+        //贷款年限
+        var htmlYear='';
+            for(var i=1; i<=30; i++) {
+                htmlYear+='<li>'+i+'年</li>'; 
+            };
+        $('#dialogTwo ul').append(htmlYear);
+        $('.year').click(function(){
+            $('.shadow').show();
+            $('#dialogTwo').show().siblings().hide();
+        })
+        //公积金贷款利率
+        $('.rate1').click(function(){
+            $('.shadow').show();
+            $('#dialogThree').show().siblings().hide();
+        })
+        //商业贷款利率
+        var htmlRate2='';
+            rate21Arr.forEach(function(item,index){
+                htmlRate2+='<li>最新基准利率'+item+'</li>'; 
+            })
+        $('#dialogFour ul').append(htmlRate2);    
+        $('.rate2').click(function(){
+            $('.shadow').show();
+            $('#dialogFour').show().siblings().hide();
+        })
+        //房价贷款比例
+        var htmlRate3='';
+            rate31Arr.forEach(function(item,index){
+                htmlRate3+='<li>'+item+'</li>'; 
+            })
+        $('#dialogFive ul').append(htmlRate3);    
+        $('.rate3').click(function(){
+            $('.shadow').show();
+            $('#dialogFive').show().siblings().hide();
+        })
+
+
+
+        //扩展项的点击监听
+        $('footer')
+        .on('click', '.shadow,#cancel', function(){
+            $('.shadow').hide();
+            $('#dialogOne').hide();
+            $('#dialogTwo').hide();
+            $('#dialogThree').hide();
+            $('#dialogFour').hide();
+            $('#dialogFive').hide();
+        })
+        //监听计算方式
+        .on('click', '#dialogOne ul li', function(){
+            
+                calcType = $(this).index();
+                $('.calc input').val($(this).text());
+                $(this).addClass('color1').siblings().removeClass('color1');
+                calcType==0?$('ol').hide():$('ol').show();
+                $('.shadow,#dialogOne').hide();
+
+        })
+        //监听贷款年限
+        .on('click', '#dialogTwo ul li', function(){
+            
+                $('.year input').val($(this).text());
+                years = $(this).index()+1;
+                changeRate(years);//修改利率
+                $(this).addClass('color1').siblings().removeClass('color1');
+                $('.shadow,#dialogTwo').hide();
+
+        })
+        //监听公积金贷款利率
+        .on('click', '#dialogThree ul li', function(){
+            
+                var index = $(this).index();
+                var str = $(this).text();
+                if(years<=5){
+                    var newStr = str + "("+rate11Num[index]+"%)";
+                    $('.rate1 input').val(newStr);
+                    rate1 = rate11Num[index];
+                }else{
+                    var newStr = str + "("+rate12Num[index]+"%)";
+                    $('.rate1 input').val(newStr);
+                    rate1 = rate11Num[index];
+                }
+                $(this).addClass('color1').siblings().removeClass('color1');
+                $('.shadow,#dialogThree').hide();
+
+        })
+        //监听商业贷款利率
+        .on('click', '#dialogFour ul li', function(){
+            
+                var index = $(this).index();
+                var str = $(this).text();
+                if(years==1){
+                    var newStr = str + "("+rate21Num[index]+"%)";
+                    $('.rate2 input').val(newStr);
+                    rate2 = rate21Num[index];
+                }else if(years<=5){
+                    var newStr = str + "("+rate22Num[index]+"%)";
+                    $('.rate2 input').val(newStr);
+                    rate2 = rate22Num[index];
+                }else{
+                    var newStr = str + "("+rate23Num[index]+"%)";
+                    $('.rate2 input').val(newStr);
+                    rate2 = rate23Num[index];
+                }
+                $(this).addClass('color1').siblings().removeClass('color1');
+                $('.shadow,#dialogFour').hide();
+            
+        })
+        //监听房价贷款比例
+        .on('click', '#dialogFive ul li', function(){
+                var index = $(this).index();
+                var str = $(this).text();
+                $(this).addClass('color1').siblings().removeClass('color1');
+                rate3 = rate31Num[index];
+                $('.rate3 input').val(str);
+                $('.shadow,#dialogFive').hide();
+        })
+
+        //根据年限修改贷款利率
+        function changeRate(years) {
+            console.log(years)
+            if(years==1)
+            {
+                rate1 = 2.75;
+                rate2 = 4.35;
+                $('.rate1 input').val('最新基准利率(2.75%)');
+                $('.rate2 input').val('最新基准利率(4.35%)');
+            }
+            else if(years>1&&years<=5)
+            {
+                rate1 = 2.75;
+                rate2 = 4.75;
+                $('.rate1 input').val('最新基准利率(2.75%)');
+                $('.rate2 input').val('最新基准利率(4.75%)');
+            }
+            else
+            {
+                rate1 = 3.25;
+                rate2 = 4.9;
+                $('.rate1 input').val('最新基准利率(3.25%)');
+                $('.rate2 input').val('最新基准利率(4.9%)');
+            }
+        }
+
+        //根据房价总额计算贷款总额
+        $("ol input").change(function(){
+            console.log(12121)
+        });
+    </script>
+</body>
+</html>

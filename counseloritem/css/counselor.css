@@ -1,0 +1,140 @@
+body,html{
+    width:100%;
+    height:100%;
+    background:#f9f9f9;
+}
+.titledivbox{
+    width:100%;
+    background:#ffffff;
+}
+.titlediv{
+    margin-left:0.24rem;
+    margin-right:0.5rem;
+    padding:0.4rem 0;
+    overflow: hidden;
+}
+.titlediv .img{
+    width:1.6rem;
+    height:1.6rem;
+    float:left;
+    margin-right:0.4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f5f5f5;
+    background-size: cover;
+}
+.titlediv>div:nth-of-type(1)>img{
+    float:left;
+    width:100%;
+    height:100%;
+}
+.titledivright>div:nth-of-type(1){
+    padding-top:0.2rem;
+    overflow: hidden;
+}
+.titledivright>div:nth-of-type(1)>p{
+    font-size:0.2rem;
+    color:#ff4343;
+    padding:0.05rem 0.1rem;
+    background:#fff4f4;
+    border-radius: 0.08rem;
+    margin-right:0.1rem;
+    float:left;
+    border:0.005rem solid #ff4343;
+}
+.titledivright>div:nth-of-type(1)>p:nth-of-type(1){
+    font-size:0.38rem;
+    color:#222222;
+    padding:0;
+    border:none;
+    background:#ffffff;
+    margin-right:0.4rem;
+}
+.titledivright>div:nth-of-type(2){
+    font-size:0.26rem;
+    color:#666666;
+    line-height:1.3;
+    margin-top:0.25rem;
+}
+.ul_1{
+    width:100%;
+    border-top:0.005rem solid #e6e6e6;
+    background:#ffffff;
+    padding:0.4rem 0;
+    overflow: hidden;
+}
+.ul_1>li{
+    width:50%;
+    float:left;
+}
+.ul_1>li>p:nth-of-type(1){
+    font-size:0.36rem;
+    color:#222222;
+    text-align: center;
+}
+.ul_1>li:nth-of-type(1){
+    border-right:0.005rem solid #e6e6e6;
+    box-sizing:border-box; 
+}
+.ul_1>li>p:nth-of-type(2){
+    font-size:0.26rem;
+    color:#999999;
+    text-align: center;
+    margin-top:0.2rem;
+}
+.div_1{
+    width:100%;
+    padding:0.4rem 0;
+    text-indent: 0.24rem;
+    font-size:0.4rem;
+    color:#222222;
+    background:#ffffff;
+    margin-top:0.2rem;
+    border-bottom:0.005rem solid #e6e6e6;
+}
+.ul_2{
+    width:100%;
+    background:#ffffff;
+}
+.ul_2>li{
+    margin:0 0.24rem;
+    border-bottom:0.005rem solid #e6e6e6;
+    height:1rem;
+    font-size:0.32rem;
+    line-height: 1rem;
+}
+.ul_2>li>div{
+    width:90%;
+    float:left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ul_2>li>img{
+    float:right;
+    height:0.28rem;
+    margin-top:0.36rem;
+}
+.nodate{
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.3rem;
+}
+.nopayload{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #ffffff;
+}
+.nopayload img{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

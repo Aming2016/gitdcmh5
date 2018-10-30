@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>折扣劵</title>
+        <link rel="stylesheet" href="./css/index.css">
+        <script src="../../js/vue.min.js"></script>
+        <script src="../../js/response.js"></script>
+        <script src="../../js/axios.min.js"></script>
+        <script src="../../js/axiosurl.js"></script>
+</head>
+
+<body>
+        <div id="app">
+        <div class="contentimg">
+                <img :src="listobjct.imageUrl" alt="">
+                <!-- <p>购房<span>85</span>折</p>
+                <p>编号：13145641</p>
+                <p>2017-09-25 23:45 过期</p> -->
+        </div>
+        <div class="div_class_1">
+                <img v-show="listobjct.status=='NO_USED'" src="./imgs/daishiyong.png" alt="">
+                <img v-show="listobjct.status=='ALREADY_USED'" src="./imgs/yishiyong.png" alt="">
+                <img v-show="listobjct.status=='ALREADY_OVERDUE'" src="./imgs/yiguoqi.png" alt="">
+                <img v-show="listobjct.status=='GIVE'" src="./imgs/zhuanzeng.png" alt="">
+                <p>{{listobjct.name}}</p>
+                <p>编号：{{listobjct.code}}</p>
+                <p>有效期：{{listobjct.vaildDateTime}}</p>
+        </div>
+        <ul id="ul_1">
+                <!-- <li>
+                        <div>礼券描述</div>
+                        <div>离开的房间看了绝地逢fdssafasd 规律的方式购房大师傅大法师发送gas发大法师烦死哒大师傅大法师生离开激烈的发生垃圾分类陆地上飞机回家了打算看韩剧龙魂时刻了浩丰科技h三个地方地方</div>
+                </li>
+                <li>
+                        <div>有效期</div>
+                        <div>兑换后30天内有效</div>
+                </li>
+                <li>
+                        <div>使用说明</div>
+                        <div>费多少积分是否看见很快就电风扇框架福达合金as光华科技地方撒看见过短发傻逼规划局打发时间个打发时间更简单方法办公环境大帅哥好几个电视剧更好几十个发几个讲话稿封建割据感觉感觉</div>
+                </li>
+                <li>
+                        <div>注意事项</div>
+                        <div>我哈佛is啊回复我按时覅爱涸鲋得水的国防生大法师客户端发送卡还款很好看货到付款时候 发货时刻好卡萨尔h</div>
+                </li> -->
+        </ul>    
+        </div>
+        
+        
+</body>
+        <script>
+                //接口传参 url?token=d2ViX2U5ZjdkYWJmLTFhNDYtNDdmMC04ZjA5LTRiNzlhMDJlYmMzMF8w&scity=beihai&type=web&?couponCode=1&status=GIVE
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			listobjct:"",
+			token: "",
+			scity: "",
+                        type:"web",
+                        couponCode:"",
+                        status:"",
+		},
+		created() {
+			var url = location.href;
+			var urlparams = this.parseUrl(url);
+			this.token = urlparams.token;
+                        this.type = urlparams.type;
+                        this.couponCode=urlparams.couponCode;
+                        this.status=urlparams.status;
+			window.localStorage.token_h5 = this.token;
+			this.scity = urlparams.scity;
+			window.localStorage.scityn_h5 = this.scity;
+			this._querys();
+		},
+		methods: {
+			_querys() {
+                                var urls=GETCOUPONDETAIL+"?couponCode="+this.couponCode
+                                if(this.status=='GIVE'){
+                                urls=GETGIVECOUPONDETAIL+"?couponFollowId="+this.couponCode
+                                }
+				axios.post(urls,{}, {
+					headers: { 'unique-code': this.token, 'scity': this.scity },
+				})
+					.then(res => {
+                                                console.log(res)
+                                                this.listobjct = res.data.data
+                                                console.log(this.listobjct)
+                                                var content = document.querySelector("#ul_1")
+                                                content.innerHTML=this.listobjct.content;
+					})
+			},
+			parseUrl(url) {
+				var urlStr = url.split("?")[1].split("&");
+				var urlparams = {};
+				for (let i = 0; i < urlStr.length; i++) {
+					var item = urlStr[i].split("=")
+					urlparams[item[0]] = item[1]
+				}
+				return urlparams;
+			}
+		}
+	}) 
+        </script>
+</html>

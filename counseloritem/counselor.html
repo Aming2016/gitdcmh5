@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>顾问详情</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="./css/counselor.css">
+</head>
+
+<body>
+    <div id="box">
+        <div class="titledivbox">
+            <div class="titlediv">
+                <div class="img"><img :src="dataDetail.photo" alt=""></div>
+                <div class="titledivright">
+                    <div>
+                        <p>{{dataDetail.name}}</p>
+                        <p v-for="item in dataDetail.label">{{item}}</p>
+                        <!-- <p>交易过户</p> -->
+                    </div>
+                    <div>{{dataDetail.summary}}</div>
+                </div>
+            </div>
+        </div>
+        <ul class="ul_1">
+            <li>
+                <p>{{dataDetail.problemNum}}</p>
+                <p>被提问</p>
+            </li>
+            <li>
+                <p>{{dataDetail.answerNum}}</p>
+                <p>回答</p>
+            </li>
+        </ul>
+        <div class="div_1">他回答的问题</div>
+        <ul class="ul_2">
+            <li v-for="item in dataDetail.answerList" @click="selectItem(item)">
+                <div>{{item.problemTitle}}</div>
+                <img src="./imgs/arrows.png">
+            </li>
+            <p v-show="!dataDetail.answerList.length" class="nodate">暂时没有回答</p>
+            <!-- <li>
+                <div>俯拾地芥蓝色大海反馈良好SD卡回家开发商贷款豪科技</div>
+                
+                <img src="./imgs/arrows.png" alt="">
+            </li>
+            <li>
+                <div>
+                    俯拾地芥蓝色大海反馈良好SD卡回家开发商贷款豪科技
+                </div>
+                
+                <img src="./imgs/arrows.png" alt="">
+            </li> -->
+        </ul>
+        <div class="nopayload"  v-show="!dataDetail"><img src="./imgs/loading.gif"></div>
+    </div>
+    <!-- 屏蔽广告 -->
+    <script src="../js/shield.js"></script>
+    <script src="../js/response.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/axiosurl.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+                el: '#box',
+                data: {
+                    city: 'beihai',
+                    employeeId: '',
+                    urlparams: null,
+                    dataDetail: {
+                        photo: null,
+                        answerList: []
+                    },
+                    token: null
+                },
+                created() {
+                    var url = location.href;
+                    // id 列表id
+                    // scityname 城市拼音
+                    // token 尽量都传过来
+                    
+
+                    var urlparams = this.parseUrl(url);
+                   try{
+                       this.urlparams = urlparams;
+                       this.city = urlparams.scityname;
+                       this.employeeId = this.urlparams.id;
+                       this.token = this.urlparams.token||null;
+                       this.answerRequest(this.employeeId, this.city);
+                   }catch(e){
+
+                   }
+                },
+                methods: {
+                    answerRequest() {
+                        axios.get(CONSULTANTINFO+"?employeeId="+this.employeeId,{
+                            headers:{
+                                'Content-Type': "application/json;charset=UTF-8",
+                                'scity': this.city,
+                            }
+                        })
+                        .then((res) => {
+                            let newData = res.data.data;
+                            try{
+                                newData.label = newData.label.split(',');
+                            }catch(e){}
+                            this.dataDetail = newData;
+                        })
+                    },
+                    selectItem(item) {
+                        let answerDetailId;
+                        location.href="../detailpage/problemDetail.html?id="+answerDetailId;
+                    },
+                    parseUrl(url) {
+                        var urlparams = {};
+                        try{
+                            var urlStr=url.split("?")[1].split("&");
+                            for( let i=0;i<urlStr.length;i++){
+                                var item = urlStr[i].split("=")
+                                urlparams[item[0]]=item[1]
+                            }
+                        }catch(e){
+
+                        }
+                        return urlparams;
+                    }
+                }
+            })
+    </script>
+</body>
+
+</html>

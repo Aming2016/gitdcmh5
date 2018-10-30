@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图表</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="./css/calcChart.css">
+    <script src="../js/echarts.common.min.js"></script>
+    <script src="../js/response.js"></script>
+    <script src="../js/vue.min.js"></script>
+
+</head>
+<body>
+    <div id="box">
+        <header>
+            <div v-for="(item,index) in menu" 
+            :class="selectNum==index?'bgColor':''"
+            @click="selectItem(index)">{{item}}</div>
+            <!-- <div>等额本金</div>
+            <div>等额本息</div> -->
+            <div class="back" @click="back()"></div>
+        </header>
+        <section>
+                <ul>
+                    <li class="chart">
+                        <!-- 为ECharts准备一个具备大小 -->
+                        <div ref="chartcxt" class="chartcontent"></div>
+                        <div class="description">
+                            <div>贷款总额 : {{result.totalLoans}}元</div>
+                            <div>支付利息 : {{result.totalInterest2}}元</div>
+                        </div>
+                    </li>
+                    <li>贷款总额 : {{result.totalLoans2}}万<div class="fr">还款总额 : <span>{{result.totalRnb}}万</span></div></li>
+                    <li>支付利息 : {{result.totalInterest}}万<div class="fr">贷款月数 : <span>{{result.month}}月</span></div></li>                    
+                    <li>月均还款 : {{result.rnb}}元<span class="tips" v-show="selectNum == 0">(首月后每月递减{{result.Decreasing}}元)</span></li>                    
+                    <p class="tips2">以上结果仅供参考,请以当地实际情况为准。</p>
+                </ul>
+        </section>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data: {
+                menu: ['等额本金','等额本息'],
+                selectNum: 0,
+                urlparams: null,//等额本金 等额本息
+                result: [],//内容渲染
+                data: [],//图表渲染
+            },
+            created() {
+                this.urlparams = this.parseUrl(location.href);
+                this.urlparams.one = JSON.parse(decodeURI(this.urlparams.selectNum1));
+                this.urlparams.two = JSON.parse(decodeURI(this.urlparams.selectNum2));
+                this.selectItem(0)
+            },
+            watch: {
+                data() {
+                    // 初始化echarts实例  
+                    var myChart = this.$refs.chartcxt; 
+                    //自适应宽高
+                    var myChartContainer = function () {
+                        myChart.style.width = 17+'rem';
+                        myChart.style.height = 17+'rem';
+                    };
+                    myChartContainer();
+                    var myChart = echarts.init(myChart);  
+                    
+                    // 指定图表的配置项和数据  
+                    option = {
+                        //设置图表与容器的间隔
+                        grid:{
+                            x:0,
+                            y:0,
+                            x2:0,
+                            y2:0,
+                            borderWidth:1
+                        },
+                        color: ['green','white','red','white'],
+                        series: [
+                            {
+                                type:'pie',
+                                radius: ['50%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    normal: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        show: true,
+                                        textStyle: {
+                                            fontSize: '15',
+                                            fontWeight: 'bold'
+                                        }
+                                    }
+                                },
+                                data: this.data
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。  
+                    myChart.setOption(option);  
+                }
+            },
+            methods: {
+                back() {
+                    window.history.back();
+                },
+                parseUrl(url) {
+                    var urlStr=url.split("?")[1].split("&");
+                    var urlparams = {};
+                    for( let i=0;i<urlStr.length;i++){
+                        var item = urlStr[i].split("=");
+                        urlparams[item[0]]=item[1]
+                    }
+                    return urlparams;
+                },
+                selectItem(index) {
+                    let data = [
+                        {value: null},
+                        {value: null},
+                        {value: null},
+                        {value: null}
+                    ]
+                    this.selectNum = index;
+                    if(index==0) {
+                        let A = this.urlparams.one.totalInterest2; //总利息
+                        let B = this.urlparams.one.totalLoans;     //总贷款
+                        let C = 150*Math.floor(B/10000);           //空白间距
+                        data[0].value = A/(A+B+C)*360;
+                        data[1].value = C/(A+B+C)*360;
+                        data[2].value = B/(A+B+C)*360;
+                        data[3].value = C/(A+B+C)*360;
+                        this.result = this.urlparams.one
+                        this.data = data;
+                    }else{
+                        let A = this.urlparams.two.totalInterest2; //总利息
+                        let B = this.urlparams.two.totalLoans;     //总贷款
+                        let C = 150*Math.floor(B/10000);           //空白间距
+                        data[0].value = A/(A+B+C)*360;
+                        data[1].value = C/(A+B+C)*360;
+                        data[2].value = B/(A+B+C)*360;
+                        data[3].value = C/(A+B+C)*360;
+                        this.result = this.urlparams.two
+                        this.data = data;
+                    }
+                    
+                }
+            }
+        })
+    </script>
+</body>
+</html>

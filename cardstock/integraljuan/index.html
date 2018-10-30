@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>折扣劵</title>
+        <link rel="stylesheet" href="./css/index.css">
+        <script src="../../js/vue.min.js"></script>
+        <script src="../../js/response.js"></script>
+        <script src="../../js/axios.min.js"></script>
+        <script src="../../js/axiosurl.js"></script>
+</head>
+
+<body>
+        <div id="app">
+                <!-- <div id="title">
+                        <img @click="fanhui" src="./imgs/fanhui.png" alt=""> 折扣劵
+                </div> -->
+                <div class="contentimg">
+                        <img :src="objctitem.imageUrl" alt="">
+                </div>
+                <div class="div_class_1">
+                        <p>{{objctitem.name}}</p>
+                        <p>{{objctitem.needScore}}积分兑换券</p>
+
+                </div>
+                <ul id="ul_1">
+                        <!-- <li>
+                                <div>礼券描述</div>
+                                <div>离开的房间看了绝地逢fdssafasd 规律的方式购房大师傅大法师发送gas发大法师烦死哒大师傅大法师生离开激烈的发生垃圾分类陆地上飞机回家了打算看韩剧龙魂时刻了浩丰科技h三个地方地方</div>
+                        </li>
+                        <li>
+                                <div>有效期</div>
+                                <div>兑换后30天内有效</div>
+                        </li>
+                        <li>
+                                <div>使用说明</div>
+                                <div>费多少积分是否看见很快就电风扇框架福达合金as光华科技地方撒看见过短发傻逼规划局打发时间个打发时间更简单方法办公环境大帅哥好几个电视剧更好几十个发几个讲话稿封建割据感觉感觉</div>
+                        </li>
+                        <li>
+                                <div>注意事项</div>
+                                <div>我哈佛is啊回复我按时覅爱涸鲋得水的国防生大法师客户端发送卡还款很好看货到付款时候 发货时刻好卡萨尔h</div>
+                        </li> -->
+                </ul>
+                <ul id="btn_ul">
+                        <li>
+                                <p>{{objctitem.currentScore}}</p>
+                                <p>账户当前积分</p>
+                        </li>
+                        <li @click="gobtn">
+                                立即兑换
+                        </li>
+                </ul>
+        </div>
+</body>
+<script>
+        var vm = new Vue({
+                el: '#app',
+                data: {
+                        list: [
+                                { home: "购房85折折扣券", gared: "积分：2000", regared: "已兑2000分" },
+                                { home: "购房85折折扣券", gared: "积分：2000", regared: "已兑2000分" },
+                                { home: "购房85折折扣券", gared: "积分：2000", regared: "已兑2000分" }
+                        ],
+                        token: window.localStorage.token_h5,
+                        scity: window.localStorage.scity_h5,
+                        exchangeId: "",//详情id
+                        objctitem: "",//详情信息
+                },
+                created() {
+                        this.exchangeId = this.parseUrl(location.href).exchangeId;
+                        this.querys();
+                },
+                methods: {
+                        gobtn: function () {
+                                window.location.href = "../carjuan/carjuan.html"
+                        },
+                        querys() {
+                                console.log(this.exchangeId)
+                                axios.post(GETGOODSDETAIL + "?exchangeId=" + this.exchangeId,{}, {
+                                        headers: { 'unique-code': this.token },
+                                })
+                                        .then(res => {
+                                                this.objctitem = res.data.data
+                                                var content = document.querySelector("#ul_1");
+                                                content.innerHTML = this.objctitem.content
+                                                window.localStorage.cardstock = JSON.stringify(this.objctitem)
+                                        })
+                        },
+                        parseUrl(url) {
+                                var urlStr = url.split("?")[1].split("&");
+                                var urlparams = {};
+                                for (let i = 0; i < urlStr.length; i++) {
+                                        var item = urlStr[i].split("=")
+                                        urlparams[item[0]] = item[1]
+                                }
+                                return urlparams;
+                        }
+                },
+
+        }) 
+</script>
+
+</html>

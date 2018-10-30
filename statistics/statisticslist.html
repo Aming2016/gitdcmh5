@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    	<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+    	<script src="../js/axiosurl.js" type="text/javascript" charset="utf-8"></script>
+		<title>成交房源</title>
+		<style type="text/css">
+			body{
+				width:100%;
+				min-height:100%;
+				background: #ffffff;;
+			}
+			*{
+				margin:0;
+				padding:0;
+				line-height: 1;
+			}
+			
+.shuaixuan{
+  width:100%;
+}
+#cnxhlist {
+    width: 96%;
+    float: left;
+    margin-left:2%;
+    overflow: hidden;
+    margin-top: 0.05rem;
+    /* margin-bottom: 0.5rem; */
+  }
+  .cnxhlistitem {
+    width: 100%;
+
+    border-bottom: 0.005rem solid #E6E6E6;
+    margin-top: 0.15rem;
+    padding-bottom:0.15rem;
+    overflow: hidden;
+  }
+  .cnxhcontnet {
+    width: 3.5rem;
+    margin-left: 0.12rem;
+    padding-bottom:0.15rem;
+  }
+  .cnxhcontnetleft {
+    width: 1.3rem;
+    height: 100%;
+    float: left;
+  }
+  .cnxhcontnetleft > img {
+    width: 100%;
+    height:1rem;
+    float: left;
+  }
+  .cnxhcontnetright {
+    width: 2.1rem;
+    overflow: hidden;
+    float: left;
+    margin-left: 0.1rem;
+  }
+  .cnxhcontnetright>div{
+    margin-top:0.09rem;
+
+  }
+  .cnxhcontnetright>div:nth-of-type(1){
+    margin:0;
+  }
+  .cnxhconterone {
+    font-size:0.16rem;
+    color: #222222;
+    
+  }
+  .cnxhcontertwo {
+    font-size: 0.13rem;
+    color: #666666;
+  }
+  .cnxhconterthree {
+    font-size: 0.12rem;
+    color: #666666;
+  }
+  .cnxhconterfour {
+    width: 100%;
+    overflow: hidden;
+  }
+  .cnxhconterfour > div {
+    padding:0 0.05rem;
+    height: 0.15rem;
+    float: left;
+    margin-right: 0.03rem;
+    text-align: center;
+    line-height: 0.16rem;
+    color: #ffffff;
+    font-size: 0.11rem;
+  }
+  .cnxhconterfour > div:nth-of-type(1) {
+    background-color: #EDF9FF;
+    color:#00A8FF;
+  }
+  .cnxhconterfour > div:nth-of-type(2) {
+    background-color: #FFF2FD;
+    color:#FF7F50;
+  }
+  .cnxhconterfour > div:nth-of-type(3) {
+    background-color: #EBFFF3;
+    color:#00b969;
+  }
+  .cnxhconterfive {
+    width: 100%;
+    overflow: hidden;
+    margin-top:0.03rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
+  }
+  .cnxhconterfive > div:nth-of-type(1) {
+    float: left;
+    color: #ff4343;
+    font-size: 0.17rem;
+  }
+  .cnxhconterfive > div:nth-of-type(2) {
+    margin-top:0.04rem;
+    float: left;
+    color: #666666;
+    font-size: 0.11rem;
+    margin-left: 0.1rem;
+  }
+  #cnxhlist > div:nth-last-of-type(1) {
+  }
+  .taberlist{
+      width:100%;
+      height:0.35rem;
+      border-bottom:1px solid #cacaca;
+      background-color:#ffffff;
+  }
+  .taberlist>li{
+      width:20%;
+      height:100%;
+      text-align: center;
+      line-height: 0.35rem;
+      font-size:0.14rem;
+      color:#333333;
+      float:left;
+  }
+  .shuaixuanone{
+      width:100%;
+      overflow: hidden;
+      background: #ffffff;
+      border-bottom:1px solid #cacaca;
+      min-height:1.5rem;
+  }
+#id_11{
+	width:40%;
+	height:0.3rem;
+	font-size:0.14rem;
+	background:#333333;
+	color:#ffffff;
+	line-height: 0.3rem;
+	text-align: center;
+	opacity: 0.8;
+	position: fixed;
+	bottom:0.2rem;
+	left:30%;
+	border-radius: 0.08rem;
+}
+.shuaixuantwo{
+    width:100%;
+    overflow: hidden;
+    background: #ffffff;
+    border-bottom:1px solid #cacaca;
+}
+.shuaixuantwo>div{
+    width:20%;
+    height:0.3rem;
+    background:#f2f2f2;
+    margin:0 2.25%;
+    margin-top:0.1rem;
+    font-size:0.12rem;
+    text-align: center;
+    float:left;
+    line-height: 0.3rem;
+    border-radius: 0.05rem;
+}
+.bottomdiv_1{
+  padding-top:0.15rem !important;
+  margin-top:0.24rem !important;
+  margin-bottom:0.25rem !important;
+  width:100% !important;
+  background:#ffffff !important;
+  border-top:0.005px solid #e6e6e6;
+  margin-left:0 !important;
+  border-radius: 0 !important;
+}
+  .shuaixuanone>ul{
+      width:50%;
+      float:left;
+      font-size:0.16rem;
+      height:1.5rem;
+      overflow-y: auto;
+  }
+  .shuaixuanone>ul>li{
+      width:100%;
+      height:0.3rem;
+      line-height: 0.3rem;
+
+      text-align: center;
+  }
+  .shuaixuanthree{
+    width:100%;
+    overflow: hidden;
+    background: #ffffff;
+    border-bottom:1px solid #cacaca;
+  }
+  #shuaixuancolor{
+    width:100%;
+    text-align: center;
+    font-size:0.16rem;
+  }
+  .shuaixuanname{
+      width:80%;
+      margin:auto;
+      overflow: hidden;
+      font-size:0.12rem;
+  }
+  .mtrangebox{
+    width:80%;
+    margin:auto;
+    margin-bottom:0.2rem;
+}
+  .shuaixuanname>span:nth-of-type(1){
+    float:left;
+}
+.shuaixuanname>span:nth-of-type(2){
+    float:right;
+}
+.gobtnclass{
+  font-size:0.16rem;
+  text-align: center;
+  line-height: 0.4rem;
+  height:0.4rem;
+  float:left;
+  width:40%;
+  margin-left:6.6666666666%;
+  border:none;
+  border-radius: 0.04rem;
+  color:#666666;
+}
+.gobtnclasstwo{
+  font-size:0.16rem;
+  text-align: center;
+  line-height: 0.40rem;
+  height:0.40rem;
+  float:left;
+  width:40%;
+  margin-left:6.6666666666%;
+  border:none;
+  border-radius: 0.04rem;
+  color:#666666;
+  background:#f2f2f2;
+  
+}
+.shuaixuantwo_input>input{
+  width:0.8rem;
+  height:0.3rem;
+  border:1px solid #666666;
+  float:left;
+  text-indent: 0.05rem;
+  font-size:0.14rem;
+}
+.shuaixuantwo_input>input:nth-of-type(1){
+  margin-left:0.2rem;
+}
+.borderbottom{
+  width:0.2rem;
+  border-bottom: 1px solid #333333;
+  float:left;
+  margin:0 0.1rem;
+  margin-top:0.15rem;
+}
+.moneyspan{
+  margin-left:0.2rem;
+  float:left;
+  font-size:0.14rem;
+  margin-top:0.05rem;
+}
+.zidingyiqujian{
+  width:100% !important;
+  font-size:0.2rem !important;
+  margin-left:0.12rem !important;
+  float:left;
+  text-align: left !important;
+  background:#ffffff !important;
+  font-weight: bold;
+}
+.inputbox{
+  width:100%;
+  overflow: hidden;
+  margin-top:0.6rem; 
+}
+.inputbox>input{
+  width:40%;
+  height:0.3rem;
+  float:left;
+  margin-left:6.6666666666%;
+  border:1px solid #cacaca;
+  border-radius: 6px;
+  text-align: center;
+  font-size:0.16rem;
+}
+.sxuanitem{
+  background:#ffeeee !important;
+  color:#ff4343 !important;
+}
+.activesetcolor{
+  color:#ff4343 !important;
+}
+</style>
+	</head>
+	<body>
+		<div id="cnxhlist">
+            <div class="cnxhlistitem" v-for="item in list" @click="startAPP(item)">
+                <div class="cnxhcontnet">
+                    <div class="cnxhcontnetleft">
+                        <img :src="item.housePic " onerror="defaultImg">
+                    </div>
+                    <div class="cnxhcontnetright">
+                        <div class="cnxhconterone">
+                            {{item.houseTitle}}
+                        </div>
+                        <div class="cnxhcontertwo">
+                            {{item.areaName}} {{item.districtName}} {{item.houseDirection}}
+                        </div>
+                        <div class="cnxhconterthree">
+                            {{item.roomsNum}}房{{item.livingRoomNum}}厅 {{item.builtArea}}m² 
+                        </div>
+                        <div class="cnxhconterfour">
+                            <div v-for="item in item.houseTag ">{{item}}</div>
+                        </div>
+                         <div class="cnxhconterfive">
+                            <div>{{item.saleTotal}}万</div>
+                            <div>{{item.salePrice}}元/平</div>
+                        </div>
+                    </div>
+                </div>              
+            </div>
+            <div id="id_11" v-show="showone">正在加载中。。。</div>
+        <div id="id_11" v-show="showtwo">已全部加载。。。</div>
+        </div>
+        
+  </body>
+  <!-- 微信sdk -->
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+		    el: '#cnxhlist',
+		    data:{
+		       list:[],
+		       numbers:true,
+		       showone:false,
+		       showtwo:false,
+		       page:1,
+		       numberone:true,
+           type: 'wx',
+           city: 'beihai',
+		       project:"",//get穿参
+		    },
+		    created(){
+            try{
+                var url = location.href;
+                var urlparams = this.parseUrl(url);
+                this.type = urlparams.type.toLowerCase();
+                console.log(this.type)
+                this.city = urlparams.cityName;
+            }catch(err){}
+		        this._remdcs();
+		        this._querys();
+		    },
+		    mounted() {
+			    window.addEventListener("scroll", this.handleScroll);
+			  },
+		    methods:{
+		    //滑动监听
+		    handleScroll(){
+		    if(this.numbers&&this.numberone){
+		    	//真实内容的高度
+			 var pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight);
+			 //视窗的高度
+			 var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+			 //隐藏的高度
+			 var scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+			 //判断加载视频，文章，回答，医生
+			 if(pageHeight - viewportHeight - scrollHeight <=0){
+			 	this.numbers=false
+			 	this.showone=true
+			 	this.page++
+			 	this._querys();
+			 	setTimeout(()=>{
+			 		this.showone=false
+			 	},500)
+			 	setTimeout(()=>{
+			 		this.numbers=true
+			 	},500)
+			 }
+		    }
+		    
+        },
+        defaultImg() {
+          console.log('this.src="'+require("./imgs/dafault.png")+'"')
+           return 'this.src="'+require("./imgs/dafault.png")+'"';
+        },
+		    //获取列表
+		  	_querys(){
+		  		$axios.post(HOUSINGCS,{
+		  			pageNo:this.page,
+					pageSize: '10',
+					scity:JSON.parse(window.sessionStorage.project).scity
+		  		})
+		  		.then(res=>{
+		  			if(res.data.data.length!=='0'){
+		  				for(let i=0;i<res.data.data.length;i++){
+			  				res.data.data[i].houseTag=res.data.data[i].houseTag.split(",")
+			  				if (res.data.data[i].houseTag.length > 3){
+				              res.data.data[i].houseTag.splice(
+				                -1,
+				                res.data.data[i].houseTag.length - 3
+				              );
+				            } else {
+				              res.data.data[i].houseTag = res.data.data[i].houseTag;
+				            }
+              }
+			  			this.list=this.list.concat(res.data.data)
+		  			}else{
+		  				this.numberone=false;
+		  				this.showone=false;
+		  				this.showtwo=true;
+		  				setTimeout(()=>{
+					 		this.showtwo=false
+					 	},1000)
+		  			}
+		  			
+		  		})
+		  	},
+				startAPP(item) {
+            var sdid = item.sdid;
+            this.url = "scheme://host/pathPrefix?cityName="+this.city+"&sdid="+sdid+"&id=1"+"&type="+this.type; 
+            switch(this.type){
+                case 'web': return location.href = "http://custapp.shyj.cn/#/rentingitem/"+sdid+"?id=1"; 
+                case 'ios': return location.href = this.url;  
+                case 'android': return location.href = this.url;
+                case 'wx': return this.wx(sdid);
+            }
+        },
+        wx(sdid) {
+            var newUrl =  "../houseDetail/houseDetail?id="+sdid+"&scity="+this.city; 
+            wx.miniProgram.navigateTo({url: newUrl});
+        },
+        //解析url
+        parseUrl(url) {
+            try{
+                var urlStr=url.split("?")[1].split("&");
+                var urlparams = {};
+                for( let i=0;i<urlStr.length;i++){
+                    var item = urlStr[i].split("=")
+                    urlparams[item[0]]=item[1]
+                }
+                return urlparams;
+            }
+            catch(err){}
+        },
+				// 自适应代码
+				_remdcs(){
+			       	var doc = window.document;
+					var docEl = doc.documentElement;
+					var tid;
+					function refreshRem(){
+						var width = docEl.getBoundingClientRect().width;
+						if (width > 750){ // 最大宽度
+							width = 750;
+						}
+						var rem = width /3.75;
+						docEl.style.fontSize = rem + 'px';
+					}
+				
+					window.addEventListener('resize',()=> {
+						clearTimeout(tid);
+						tid = setTimeout(refreshRem, 300);
+					}, false);
+					window.addEventListener('pageshow',(e) =>{
+						if (e.persisted) {
+							clearTimeout(tid);
+							tid = setTimeout(refreshRem, 300);
+						}
+					}, false);		
+					refreshRem(); 
+		   },
+		  }
+		   
+})
+	</script>
+</html>

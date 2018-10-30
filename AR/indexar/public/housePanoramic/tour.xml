@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<krpano version="1.19" title="Virtual Tour">
+  <include url="skin/vtourskin.xml"/>
+  <action name="startup" autorun="onstart">
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() );
+	</action>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_1" title="1cc5ab09e47b47beab1fe18fb98a8dad_1" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_1.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_1.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_1.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_2" title="1cc5ab09e47b47beab1fe18fb98a8dad_2" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_2.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_2.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_2.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_3" title="1cc5ab09e47b47beab1fe18fb98a8dad_3" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_3.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_3.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_3.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_4" title="1cc5ab09e47b47beab1fe18fb98a8dad_4" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_4.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_4.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_4.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_5" title="1cc5ab09e47b47beab1fe18fb98a8dad_5" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_5.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_5.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_5.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_6" title="1cc5ab09e47b47beab1fe18fb98a8dad_6" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_6.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_6.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_6.tiles/%s/l2/%v/l2_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+  <scene name="scene_1cc5ab09e47b47beab1fe18fb98a8dad_7" title="1cc5ab09e47b47beab1fe18fb98a8dad_7" onstart="" thumburl="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_7.tiles/thumb.jpg" lat="" lng="" heading="">
+    <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto"/>
+    <preview url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_7.tiles/preview.jpg"/>
+    <image type="CUBE" multires="true" tilesize="512">
+      <level tiledimagewidth="512" tiledimageheight="512">
+        <cube url="https://ztj-test-env.oss-cn-shenzhen.aliyuncs.com/krpano/temp/1cc5ab09e47b47beab1fe18fb98a8dad/panos/1cc5ab09e47b47beab1fe18fb98a8dad_7.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+      </level>
+    </image>
+  </scene>
+</krpano>

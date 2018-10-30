@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html style="font-size: 100px">
+	<head>
+		<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+		<script src="js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<title>数据统计</title>
+		<style type="text/css">
+			body{
+				width:100%;
+				min-height:100%;
+				background:#f9f9f9;
+			}
+			*{
+				margin:0;
+				padding:0;
+				line-height: 1;
+			}
+			ul{
+				list-style: none;
+			}
+			#div_1{
+				width:100%;
+				height:0.9rem;
+				background:url(imgs/titleimg.png) no-repeat;
+				background-size:100% 100%;
+			}
+			#div_1>p{
+				margin-left:0.35rem;
+				font-size:0.2rem;
+				color:#222222;
+			}
+			#div_1>p:nth-of-type(2){
+				font-weight: bold;
+			}
+			#div_1>p:nth-of-type(1){
+				font-size:0.17rem;
+				color:#666666;
+				padding-top:0.2rem;
+				margin-bottom:0.15rem;
+			}
+			#div_1>p:nth-of-type(1)>span:nth-of-type(2){
+				font-size:0.12rem;
+				color:#999999;
+				margin-left:0.1rem;
+			}
+			#div_2{
+				margin-top:0.15rem;
+				width:100%;
+				background:#ffffff;
+				color:#222222;
+				padding-top:0.25rem;
+				padding-bottom:0.2rem;
+				font-size:0.2rem;
+				text-indent: 0.12rem;
+			}
+			#div_3{
+				width:100%;
+				height:2.15rem;
+				background:#ffffff;
+			}
+			#div_3>div{
+				margin-left:0.12rem;
+				margin-right:0.12rem;
+				height:100%;
+			}
+			#ul_1{
+				width:100%;
+				height:0.4rem;
+				background:#ffffff;
+			}
+			#ul_1>li{
+				margin-left:0.12rem;
+				margin-right:0.12rem;
+				border-bottom: 0.005rem solid #e6e6e6;
+				height:100%;
+				font-size:0.12rem;
+				color:#666666;
+				line-height: 0.4rem;
+				text-align: center;
+				list-style: none;
+				box-sizing: border-box;
+			}
+			#ul_1>li>div{
+				display: inline-block;
+			}
+			#ul_1>li>div:nth-of-type(1){
+				margin-right:0.4rem;
+			}
+			#ul_1>li>div>p{
+				width:0.06rem;
+				height:0.06rem;
+				border-radius: 50%;
+				background:#ff4343;
+				display: inline-block;
+				vertical-align: middle;
+			}
+			#ul_1>li>div:nth-of-type(2)>p{
+				background:#00b969;
+			}
+			#ul_1>li>div>span{
+				margin-left:0.1rem;
+				vertical-align: middle;
+			}
+			#ul_2{
+				width:100%;
+				height:0.5rem;
+				overflow: hidden;
+				background: #ffffff;
+			}
+			#ul_2>li:nth-of-type(1){
+				height:100%;
+				line-height: 0.5rem;
+				float:left;
+				margin-left:0.12rem;
+				font-size:0.17rem;
+				color:#222222;
+			}
+			#ul_2>li:nth-of-type(2){
+				height:100%;
+				line-height: 0.5rem;
+				float:right;
+				margin-right:0.12rem;
+				color:#999999;
+				font-size:0.12rem;
+			}
+			#ul_2>li:nth-of-type(2)>img{
+				height:0.16rem;
+				vertical-align: middle;
+				margin-left:0.1rem;
+			}
+			#ul_2>li:nth-of-type(2)>span{
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div id="div_1">
+			<p>
+				<span>{{project.scityname}}</span>
+				<!-- 湛江 -->
+				<span v-if="pinyin=='zhanjiang'?true:false">{{data.month}}月成交量</span>
+				<!-- 非湛江 -->
+				<span v-else>{{data.month}}月参考均价</span>
+			</p>
+			<p>
+				<!-- 湛江 -->
+				<span v-if="pinyin=='zhanjiang'?true:false">{{data.suiteCount}}套</span>
+				<!-- 非湛江 -->
+				<span v-else>{{data.avgPrice}}元/平</span>
+			</p>
+			</div>
+			<div id="div_2">
+				<!-- 湛江 -->
+				<span v-if="pinyin=='zhanjiang'?true:false">房源量走势</span>
+				<!-- 非湛江 -->
+				<span v-else>价格走势</span>
+			</div>
+			<div id="div_3">
+			 	 <div id="main" style="width:100%;height:100%; margin:auto;"></div>
+			</div>
+			<ul id="ul_1">
+				<!-- 湛江 -->
+				<li v-if="pinyin=='zhanjiang'?true:false">
+					<div>
+						<p></p><span>房源量</span>
+					</div>
+				</li>
+				<!-- 非湛江 -->
+				<li v-else>
+					<div>
+						<p></p><span>成交价</span>
+					</div>
+					<div>
+						<p></p><span>市场价</span>
+					</div>
+				</li>
+			</ul>
+			
+			<ul id="ul_2" v-if="isViewRecord">
+				<li>查看近60天成交房源</li>
+				<li id="btnli" @click="btnlist"><span>共{{data.day60SuiteCount}}套</span><img src="imgs/gengduojiantou.png" alt="" /></li>
+			</ul>
+
+			<div id="div_2">
+				成交量
+			</div>
+			<div id="div_3" style="padding-bottom:0.15rem;">
+			 	<div>
+			 		<div id="maintwo" style="width:100%;height:100%; margin:auto;"></div>
+			 	</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/axiosurl.js"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+		    el: '#app',
+		    data: {
+		       data:"",
+		       avgPricelist:[],//成交价
+		       marketPricelist:[],//市场价
+		       suiteCountlist:[],//成交量
+			   monthlist:[],//月份
+			   houseCountList:[],//套数
+			   isViewRecord: null,//是否展示成交房源记录
+		       project:{},//get传的参数
+			   pinyin: null,//城市拼音
+		    },
+		    created(){
+		        this._remdcs();
+				var url=document.location.href;
+				// var url = "https://custh5s.shyj.cn/statistics/index.html?scity=zhanjiang&scityname=%E6%B9%9B%E6%B1%9F&type=Android"
+		        var urllist=url.split("?")[1].split("&")
+		        for( let i=0;i<urllist.length;i++){
+				var item = urllist[i].split("=")
+				this.project[item[0]]=item[1]
+				}
+				this.project.scityname = decodeURI(this.project.scityname);
+				this.pinyin = this.project.scity;
+		        window.sessionStorage.project=JSON.stringify(this.project)
+		    },
+		    mounted(){
+		    	this._querys();
+		    },
+		    methods:{
+		    _querys(){
+		    	//查询趋势统计
+		    	axios.post(STATISTICS,{},{
+		    		headers:{
+		    			scity:this.project.scity
+		    		}
+		    	})
+		    	.then(res=>{
+					this.data=res.data.data
+					this.isViewRecord=this.data.isViewRecord;
+		    		for(let i=0;i<this.data.trendList.length;i++){
+		    			this.avgPricelist.push(this.data.trendList[i].avgPrice);
+						this.houseCountList.push(this.data.trendList[i].houseCount);
+		    			this.marketPricelist.push(this.data.trendList[i].marketPrice);
+		    			this.suiteCountlist.push(this.data.trendList[i].suiteCount);
+						this.monthlist.push(this.data.trendList[i].month+"月");
+					}
+					this.houseCountList.reverse();
+					console.log(this.houseCountList)
+		    		this.avgPricelist.reverse()
+		    		this.marketPricelist.reverse()
+		    		this.suiteCountlist.reverse()
+		    		this.monthlist.reverse()
+		    		this._drawing()
+		    	})
+		    },
+		    btnlist(){
+				location.href='statisticslist.html?cityName='+this.project.scity+'&type='+this.project.type;	  
+		    },
+		    // 自适应代码
+		    _remdcs(){
+		       	var doc = window.document;
+					var docEl = doc.documentElement;
+					var tid;
+					function refreshRem(){
+						var width = docEl.getBoundingClientRect().width;
+						if (width > 750){ // 最大宽度
+							width = 750;
+						}
+						var rem = width /3.75;
+						docEl.style.fontSize = rem + 'px';
+					}
+				
+					window.addEventListener('resize',()=> {
+						clearTimeout(tid);
+						tid = setTimeout(refreshRem, 300);
+					}, false);
+					window.addEventListener('pageshow',(e) =>{
+						if (e.persisted) {
+							clearTimeout(tid);
+							tid = setTimeout(refreshRem, 300);
+						}
+					}, false);		
+					refreshRem(); 
+		   },
+		   //表格走势 图
+		   _drawing(){
+		   		var myChart = echarts.init(document.getElementById('main'));
+				var myCharttwo = echarts.init(document.getElementById('maintwo'));
+
+				// 第一个图
+				var yName =  (this.pinyin=='zhanjiang') ? '{value} 套' : '{value} 元';
+				var yList = (this.pinyin=='zhanjiang') ? this.houseCountList : this.avgPricelist;
+				var yList2 = (this.pinyin=='zhanjiang') ? this.houseCountList : this.marketPricelist;
+
+
+				console.log(yName)
+		
+			// 第一个图
+			option = {
+					//设置图表与容器的间隔
+			            grid:{
+			                x:65,
+			                y:50,
+			                x2:60,
+			                y2:50,
+			                borderWidth:1
+			            },
+					tooltip: {
+			        	trigger: 'axis'
+			    	},
+			    xAxis:  {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: this.monthlist,
+			    },
+			    yAxis: {
+			        type: 'value',
+			        axisLabel: {
+			            formatter: yName
+			        }
+			    },
+			    series: [
+			        {
+			            type:'line',
+			            data: yList,
+			            color:'#FF4343'
+			        },
+			        {
+			            type:'line',
+			            color:'#00B969',
+			            data: yList2
+			        }
+			    ]
+			};
+
+			// 第二个图
+			options = {
+					//设置图表与容器的间隔
+			            grid:{
+			                x:65,
+			                y:50,
+			                x2:60,
+			                y2:50,
+			                borderWidth:1
+			            },
+					tooltip: {
+			        	trigger: 'axis'
+			    	},
+			    xAxis:  {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: this.monthlist,
+			    },
+			    yAxis: {
+			        type: 'value',
+			        axisLabel: {
+			            formatter: '{value} 套'
+			        }
+			    },
+			    series: [
+			        {
+			            type:'line',
+			            data:this.suiteCountlist,
+			            color:'#FF4343',
+			        }
+			    ]
+			};
+			 myChart.setOption(option);
+			 myCharttwo.setOption(options);
+		   }
+		}
+		   
+})
+	</script>
+</html>

@@ -1,0 +1,404 @@
+<!-- 房源对比 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>对比列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+		<script>
+			window.onresize=window.onpageshow=function(){
+				var wWidth = window.innerWidth;
+				document.getElementsByTagName("html")[0].style.fontSize = wWidth/750 * 100 + 'px';
+			}
+		</script>
+		<style> 
+			*{
+				padding:0;
+				margin:0;
+			}
+			h3{
+				height: .6rem;
+				line-height: .6rem;
+				font-size: .24rem;
+				color: #666666;
+				background: #f9f9f9;
+				text-indent: .2rem;
+			}
+			/*common*/
+			.table{
+				width: 100%;
+				border-collapse: collapse
+			}
+			tr td{
+				text-align: center;
+				border-bottom: 1px solid #e6e6e6;		
+				border-right: 1px solid #e6e6e6;		
+			}
+			
+			
+			.header{
+				position: relative;
+			}
+			.header a:nth-of-type(1){
+				position: absolute;
+				width: 1rem;
+				height: 1rem;
+				left: 0;
+				top: 0;
+				line-height: .6rem;
+				text-align: center;
+			}
+			.header a:nth-of-type(2){
+				position: absolute;
+				width: 1rem;
+				height: 1rem;
+				right: 0;
+				top: 0;
+				line-height: .6rem;
+				text-align: center;
+				
+			}
+			.header a:nth-of-type(1) img{
+				width: .23rem;
+				height: .42rem;
+			}
+			.header a:nth-of-type(2) img{
+				width: .45rem;
+				height: .42rem;
+			}
+			.header h3{
+				line-height: 1rem;
+				height: 1rem;
+				background: #ffffff;
+				border-bottom: 1px solid #E6E6E6;
+				text-align: center;
+			}
+			
+			.houseEastate img{
+				width: 1.60rem;
+				height: 1.1rem;
+				padding-top: .3rem;
+			}
+			.houseEastate .name{
+				font-size: .28rem;
+				color: #222222;
+			}
+			.houseEastate .price{
+				margin: .15rem 0 .3rem;
+				font-size: .28rem;
+				color: #ff4343;
+			}
+			.houseEastate td{
+			}
+			/*特色*/
+			.feature>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.feature dd{
+				height: .3rem;
+				line-height: .3rem;
+				font-size: .2rem;
+			}
+			.feature dd:nth-of-type(1) span{
+				color: #5fbeff;
+				padding:0 .1rem;
+				background: #edf9ff;
+			}
+			.feature dd:nth-of-type(2) span{
+				color: #ffd9cd;
+				margin-top: .15rem;
+				padding:0 .1rem;
+				background: #fff2ed;
+			}
+			.feature dd:nth-of-type(3) span{
+				color: #00b969;
+				padding:0 .1rem;
+				margin-top: .15rem;
+				background: #ebfff3;
+			}
+			
+			/*面积*/
+			.houseArea>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.houseArea td{
+				font-size: .28rem;
+				color: #222222;
+			}
+			
+			/*单价*/
+			.unitPrice>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.unitPrice td{
+				font-size: .28rem;
+				color: #222222;
+			}
+			
+			/*户型*/
+			.houseType>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.houseType td{
+				font-size: .28rem;
+				color: #222222;
+			}
+			
+			/*朝向*/
+			.orientation>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.orientation td{
+				font-size: .28rem;
+				color: #222222;
+			}
+			
+			/*电梯*/
+			.lift>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.lift td{
+				font-size: .28rem;
+				color: #222222;
+			}
+			
+			/*小区信息*/
+			.houseEastate>td:first-of-type{
+				height: 1.78rem;
+				width: 1.08rem;
+				font-size: 0.26rem;
+				color: #666666;
+			}
+			.houseEastate td{
+				font-size: .28rem;
+				color: #222222;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div id="app">
+		<table class="one table">
+			<tr class="houseEastate">
+				<td>
+					对比</br>
+					房源</br>
+				</td>
+				<td v-for="item in houseInfo">
+					<dl>
+						<dt><img :src="item.housePic"/></dt>
+						<dd class="name">{{item.houseTitle}}</dd>
+						<dd class="price">{{item.saleTotal}}万</dd>
+					</dl>
+				</td>
+			</tr>
+		</table> 
+		<h3>核心信息</h3>
+		<table class="two table">
+			<tr class="feature">
+				<td>
+					房源</br>
+					特色</br>
+				</td>
+				<td v-for="item in houseInfo">
+					<dl>
+						<dd><span>{{item.houseFeature}}</span></dd>
+					</dl>
+				</td>
+				
+			</tr>	
+			<tr class="houseArea">
+				<td>
+					建筑</br>
+					面积</br>
+					m²</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.builtArea}}</td>
+			</tr>
+			<tr class="unitPrice">
+				<td>
+					单价</br>
+					元/平</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.salePrice}}</td>
+			</tr>
+			<tr class="houseType">
+				<td>
+					户型</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.roomsNum}}房{{item.livingRoomNum}}厅</td>
+			</tr>
+			<tr class="orientation">
+				<td>
+					朝向</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseDirection}}</td>
+			</tr>
+			<tr class="lift">
+				<td>
+					装修</br>
+					年代</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseBuildAge ?item.houseBuildAge :'无'}}</td>
+			</tr>
+		</table>
+		
+
+		<h3>基本信息</h3>
+		<table class="two table">
+
+			<tr class="houseArea">
+				<td>
+					房屋</br>
+					类型</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseForm}}</td>
+			</tr>
+			<tr class="unitPrice">
+				<td>
+					建筑</br>
+					结构</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseStruc}}</td>
+			</tr>
+			<tr class="houseType">
+				<td>
+					配备</br>
+					电梯</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.elevator}}</td>
+			</tr>
+			<tr class="orientation">
+				<td>
+					产权</br>
+					年限</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.buildRightYears}}</td>
+			</tr>
+			<tr class="lift">
+				<td>
+					房屋</br>
+					用途</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseUse?item.houseUse:'无'}}</td>
+			</tr>
+			<tr class="lift">
+				<td>
+					产权</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.houseRight?item.houseRight:'无'}}</td>
+			</tr>
+		</table>
+		
+		<h3>小区信息</h3>
+		<table class="three table">
+			<tr class="houseEastate">
+				<td>
+					小区</br>
+					名称</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.buildName}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					小区</br>
+					均价</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.avgSalePrice}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					建筑</br>
+					年代</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.buildAge}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					楼栋</br>
+					总数</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.totalBuildNum}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					房屋</br>
+					总数</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.totalHouseNum}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					物业</br>
+					费用</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.manageFee}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					总车</br>
+					位数</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.carNum }}</td>
+			</tr>
+		</table>
+
+		<h3>配套信息</h3>
+		<table class="three table">
+			<tr class="houseEastate">
+				<td>
+					交通</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.transportInfo}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					学校</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.schoolInfo}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					医院</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.hospitalInfo}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					银行</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.bankInfo}}</td>
+			</tr>
+			<tr class="houseEastate">
+				<td>
+					超市</br>
+				</td>
+				<td v-for="item in houseInfo">{{item.supermarketInfo}}</td>
+			</tr>
+			
+		</table>
+	</div>	
+	</body>
+	<script src="js/vue.min.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="../js/axiosurl.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/houseContrast.js"></script>	
+</html>

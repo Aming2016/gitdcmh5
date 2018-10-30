@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>指南详情</title>
+    <script>
+        window.onload=window.onresize=window.onpageshow=function() {
+            var wWidth = window.innerWidth;
+            if(wWidth>=414) wWidth = 414;
+            document.getElementsByTagName("html")[0].style.fontSize = wWidth/750 * 100 + 'px';
+        }
+    </script>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="./css/guideDetail.css">
+</head>
+<body>
+    <div id="box">
+        <header>
+            <div class="title">{{detailData.title}}</div>
+            <div class="publishTime">{{detailData.publishDateTime|timefilter}}</div>
+        </header>
+        <section>
+            <div class="content">
+                <div v-html="detailData.content"></div>         
+            </div>
+        </section>
+        <div class="nopayload"  v-show="!detailData"><img src="./imgs/loading.gif"></div>
+    </div>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/axiosurl.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data: {
+                city: 'beihai',
+                type: '',
+                id: 1,
+                detailData: {
+                    title:null,
+                    publishDateTime:null,
+                    content:null,
+                    imageUrl:null
+                },
+                urlparams: null,
+            },
+            created() {
+                this.guideDetailRequest();
+            },
+            filters:{
+            	timefilter(val){
+                    let fmt  = "yyyy-MM-dd hh:mm:ss";
+                    let date = new Date(val);
+            		var o = {   
+                        "M+" : date.getMonth()+1,                 //月份   
+                        "d+" : date.getDate(),                    //日   
+                        "h+" : date.getHours(),                   //小时   
+                        "m+" : date.getMinutes(),                 //分   
+                        "s+" : date.getSeconds(),                 //秒   
+                        "q+" : Math.floor((date.getMonth()+3)/3), //季度   
+                        "S"  : date.getMilliseconds()             //毫秒   
+                    };   
+                    if(/(y+)/.test(fmt))   
+                        fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));   
+                    for(var k in o)   
+                        if(new RegExp("("+ k +")").test(fmt))   
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+                    return fmt; 
+            	}
+            },
+            methods:{
+            	guideDetailRequest() {
+                    var url = location.href;
+                    this.urlparams = this.parseUrl(url);
+            		axios.get(GUIDEHANDETAIL+this.urlparams.id,{
+                        headers:{'Content-Type': "application/json;charset=UTF-8",'scity': this.city}
+                    })
+                    .then(res => {
+                        this.detailData = res.data.data;
+                    })
+                    .catch(err=>{
+                        this.mescroll.endErr();
+                    })
+                },
+                parseUrl(url) {
+                    var urlStr=url.split("?")[1].split("&");
+                    var urlparams = {};
+                    for( let i=0;i<urlStr.length;i++){
+                        var item = urlStr[i].split("=")
+                        urlparams[item[0]]=item[1]
+                    }
+                    return urlparams;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

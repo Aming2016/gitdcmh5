@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>旅居投资</title>
+        <link rel="stylesheet" href="../css/reset.css">
+        <script src="../js/response.js"></script>
+        <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        header{
+            position: relative;
+            width: 100%;
+            height: 5rem;
+            background: url("./imgs/bg.png") no-repeat center center;
+            background-size: cover; 
+            top: -0.8rem;
+        }
+        .card{
+            position: absolute;
+            right: 0.25rem;
+            left: 0.25rem;
+            top: 2.9rem;
+            height: 3.32rem;
+            background: #ffffff;
+            border-radius: 0.1rem;
+            box-shadow: 0 0  0.09rem 0.09rem  rgba(0,0,0,0.03);
+        }
+        .card h3{
+            margin: 0.4rem auto;
+            text-align: center;
+            font-size: 0.38rem;
+            color: #222222;
+            font-weight: bold;
+        }
+        .card p{
+            margin: 0 0.25rem;
+            font-size: 0.3rem;
+            line-height: 1.5;
+            text-align: center;
+            color: #666666;
+        }
+        section{
+            margin: 0.6rem 0.25rem 0;
+            padding: 0.5rem 0.3rem;
+            background: #ffffff;
+            border-radius: 0.1rem;
+            overflow: hidden;
+            box-shadow: 0 0  0.09rem 0.09rem  rgba(0,0,0,0.03);
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+        }
+        section a{
+            width: 1.8rem;
+            text-align: center;
+            height: 0.8rem;
+            line-height: 0.8rem;
+            font-size: 0.32rem;
+            background: rgba(0, 100, 235,0.04);
+            border-radius: 0.1rem;
+            margin-bottom: 0.3rem;
+            border: 1px solid #e6e6e6;
+            color: #000000;
+        }
+        section a:nth-of-type(3n){
+            margin-right: 0;
+        }
+        section a:last-child{
+            margin:0;
+        }
+        </style>
+</head>
+<body>
+    <div id="box">
+    <header>
+        <div class="card">
+            <h3>世华旅居投资</h3>
+            <p>
+             世华旅居投资，为您的生活带来一片宁静，无论是投资还是居住，世华将为您打造专属于你的理财（居住）方式。远离喧嚣，让心灵暂时的放空，暂时的休整只为走的更深更远！
+            </p>
+
+        </div>
+    </header>
+    <section>
+        <a :href="'tourismDetail.html?page='+index" v-for="(item,index) in citys">{{item}}</a>
+    </section>
+    </div>
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data:{
+                citys: ['北海','威海','大理','湛江','桂林','海口','琼海','南宁','阳江','惠州','河源','清远','贵阳','柳州','衡阳','岳阳','防城港','汕头']
+            }
+        })
+    </script>
+</body>
+</html>

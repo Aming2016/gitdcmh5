@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>计算器</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="./css/calc.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script src="../js/response.js"></script>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <div id="box" v-cloak>
+        <header>
+            <div v-for="(item,index) in menu" 
+                :class="selectNum==index?'bgColor':''"
+                @click="selectItem(index)" v-text="item"></div>
+            <!-- <div>商业贷款</div> -->
+            <!-- <div>组合贷款</div> -->
+            <div class="back" @click="back()"></div>
+        </header>
+        
+        <!-- 公积金贷款 -->
+        <section v-if="selectNum == 0">
+            <ul>
+                <!-- 按贷款总额 -->
+                <li @click="unfold(0)">计算方式<input v-model="mode" readonly/><img src="imgs/arrows.png"/></li>
+                <!-- 按房价总额 -->
+                <ol v-if="!isLoans">
+                    <li class="price">房价总额<input v-model="sellPrice"  type="number" placeholder="0"/><span>万</span></li>
+                    <li @click="unfold(3)">贷款比例<input v-model="rate" readonly/><img src="imgs/arrows.png"/></li>
+                </ol>
+                <li class="price">贷款总额<input v-model="loans"  type="number" placeholder="0"/><span>万</span></li>
+                <li @click="unfold(1)">贷款年限<input v-model="years" readonly/><img src="imgs/arrows.png"/></li>
+                <li @click="selectItem(3)">贷款利率<input v-model="rate11" readonly/><img src="imgs/arrows.png"/></li>
+            </ul>
+            <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+        </section>
+
+        <!-- 商业贷款 -->
+        <section v-if="selectNum == 1">
+            <ul>
+                <!-- 按贷款总额 -->
+                <li @click="unfold(0)">计算方式<input v-model="mode" readonly/><img src="imgs/arrows.png"/></li>
+                <!-- 按房价总额 -->
+                <ol v-if="!isLoans">
+                    <li class="price">房价总额<input v-model="sellPrice" type="number" placeholder="0"/><span>万</span></li>
+                    <li @click="unfold(3)">贷款比例<input v-model="rate" readonly/><img src="imgs/arrows.png"/></li>
+                </ol>
+                <li class="price">贷款总额<input v-model="loans" type="number" placeholder="0"/><span>万</span></li>
+                <li @click="unfold(1)">贷款年限<input v-model="years" readonly/><img src="imgs/arrows.png"/></li>
+                <li @click="selectItem(4)">贷款利率<input v-model="rate21" readonly/><img src="imgs/arrows.png"/></li>
+            </ul>
+            <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+        </section>
+        
+        <!-- 组合贷款 -->
+        <section v-if="selectNum == 2">
+            <ul>
+                <!-- 按贷款总额 -->
+                <li @click="unfold(0)">计算方式<input v-model="mode" readonly/><img src="imgs/arrows.png"/></li>
+                <!-- 按房价总额 -->
+                <ol v-if="!isLoans">
+                    <li class="price">房价总额<input v-model="sellPrice" type="number" placeholder="0"/><span>万</span></li>
+                    <li @click="unfold(3)">贷款比例<input v-model="rate" readonly/><img src="imgs/arrows.png"/></li>
+                </ol>
+                <li class="price">贷款总额<input v-model="loans" type="number" placeholder="0"/><span>万</span></li>
+                <li class="price">公积金贷款<input v-model="houseLoans" type="number" placeholder="0"/><span>万</span></li>
+                <li @click="selectItem(3)">公积金利率<input v-model="rate11" readonly/><img src="imgs/arrows.png"/></li>
+                <li class="price">商业贷款<input v-model="commercialLoans" type="number" placeholder="0"/><span>万</span></li>
+                <li @click="selectItem(4)">商贷利率<input v-model="rate21" readonly/><img src="imgs/arrows.png"/></li>
+                <li @click="unfold(1)">贷款年限<input v-model="years" readonly/><img src="imgs/arrows.png"/></li>
+            </ul>
+            <p class="tips">贷款利率仅供计算使用,实际交易利率折扣由银行评估</p>
+        </section>
+
+
+        <!-- 计算 -->
+        <section>
+            <button class="computer" @click="calcResult()">开始计算</button>
+        </section>
+
+        <!-- 对应的展开项 -->
+        <footer>
+            <!-- 蒙层 -->
+            <div class="shadow" v-if="isCancel" @click="cancel()"></div>                  
+            <transition name="slide-fade">
+                <div class="dialog" v-if="isCancel">
+                    <!-- 公积金贷款 商业贷款 组合贷款-->
+                    <div>
+                        <!-- 标题 -->
+                        <div class="title" 
+                             v-for="(item,index) in titles"
+                             v-if="titleIndex == index">
+                             {{item}}<span @click="cancel">取消</span>
+                        </div>
+                        <!-- 计算方式 -->
+                        <ul v-show="titleIndex == 0">
+                            <li :class="selectNum1==index?'bgColor2':''" 
+                                v-for="(item,index) in ergodic"
+                                @click="selectOption(item,index)">{{item}}</li>
+                        </ul>
+                        
+                        <!-- 计算年数 -->
+                        <ul v-show="titleIndex == 1">
+                            <li :class="selectNum2==index?'bgColor2':''" 
+                                v-for="(item,index) in ergodic"
+                                @click="selectOption(item,index)">{{item}}年</li>
+                        </ul>
+
+                        <!-- 贷款利率 -->
+                        <ul v-show="titleIndex == 2">
+                            <li :class="selectNum3==index?'bgColor2':''" 
+                                v-for="(item,index) in ergodic"
+                                @click="selectOption(item,index)">最新基准利率{{item}}</li>
+                            <div class="ownrate" v-if="titleIndex == 2">
+                                自定义利率:<input type="number" placeholder="输入自定义利率" v-model="own2rate"/>%<button @click="confirmRate()">确定</button>
+                            </div>
+                        </ul>
+
+                        <!-- 贷款比例 -->
+                        <ul v-show="titleIndex == 3">
+                            <li :class="selectNum4==index?'bgColor2':''" 
+                                v-for="(item,index) in ergodic"
+                                @click="selectOption(item,index)">{{item}}成</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </transition>
+        </footer>
+        <div class="toast" v-if="isToast">{{toastContent}}</div>
+    </div>
+    <script src="js/calc.js"></script>
+</body>
+</html>

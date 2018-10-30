@@ -1,0 +1,116 @@
+html,body{
+    width: 100%;
+    background: #ffffff;
+}
+#box{
+    max-width: 677px;
+    min-height: 100%;
+    margin: 0 auto;
+}
+nav{
+    background: rgb(249, 249, 249);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 677px;
+}
+nav .menu{
+    width: 100%;
+    overflow-x: scroll;
+    display: flex;
+    flex-flow:row nowrap
+}
+.menu::-webkit-scrollbar-track
+{
+    background-color: #F5F5F5;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.22);
+}
+/*定义滚动条高宽及背景*/
+.menu::-webkit-scrollbar
+{
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.34);
+}
+/*定义滚动条*/
+.menu::-webkit-scrollbar-thumb
+{
+    background-color: #8b8b8b;
+    border-radius: 0;
+}
+nav li{
+    flex:1.6rem 0 0;
+    width: 1.6rem;
+    text-align: center;
+    font-size: 0.28rem;
+    height: 0.7rem;
+    line-height: 0.7rem;
+    background: #f9f9f9
+}
+
+/*mescroll 滚动区域*/
+.mescroll{
+    position: fixed;
+    top: 0.7rem;
+    bottom: 0;
+    height: auto;
+    max-width: 677px;
+}
+.list li{
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0.4rem 0;
+    margin: 0 0.24rem;
+    border-bottom: 1px solid #e6e6e6;
+}
+.list li img{
+    width: 2.20rem;
+    max-width: 3rem;
+    height: 1.6rem;
+    background: #F5F5F5;
+    margin-left: .32rem;
+}
+.list li .content{flex: 1}
+.list li .content p:first-child{
+    font-size: 0.32rem;
+    color: #000000;
+    line-height: 1.5;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-align: justify;
+    margin-bottom: 0.3rem;
+}
+.time{
+    font-size: .29rem;
+    color: #999999;
+}
+
+/* 高亮颜色 */
+.bgColor{
+    color: #ff4343;
+}
+.nodate{
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.3rem;
+}
+.nopayload{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #ffffff;
+}
+.nopayload img{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

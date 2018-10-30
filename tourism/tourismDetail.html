@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>旅居投资</title>
+        <link rel="stylesheet" href="../css/reset.css">
+        <script src="../js/response.js"></script>
+        <style>
+        .main img{
+            width: 100%;
+            float:left;
+        }
+        </style>
+</head>
+<body>
+    <div id="box">
+        <div class="main">
+            <img :src="path">
+        </div>
+    </div>
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data:{ 
+                citys: ['北海','威海','大理','湛江','桂林','海口','琼海','南宁','阳江','惠州','河源','清远','贵阳','柳州','衡阳','岳阳','防城港','汕头'],
+                imgPaths: [
+                    './imgs/bh.jpg',
+                    './imgs/wh.jpg',
+                    './imgs/dl.jpg',
+                    './imgs/zj.jpg',
+                    './imgs/gl.jpg',
+                    './imgs/hk.jpg',
+                    './imgs/qh.jpg',
+                    './imgs/nn.jpg',
+                    './imgs/yj.jpg',
+                    './imgs/hz.jpg',
+                    './imgs/hy1.jpg',//河源
+                    './imgs/qy.jpg',
+                    './imgs/gy.jpg',
+                    './imgs/lz.jpg',
+                    './imgs/hy2.jpg',//衡阳
+                    './imgs/yy.jpg',
+                    './imgs/fcg.jpg',
+                    './imgs/st.jpg',
+                ],
+                path: null
+            },
+            created() {
+                var url = window.location.href;
+                var urlparams = this.parseUrl(url);
+                var index = parseInt(urlparams.page);
+                this.path = this.imgPaths[index];
+            },
+            methods: {
+                parseUrl(url) {
+                    var urlStr=url.split("?")[1].split("&");
+                    var urlparams = {};
+                    for( let i=0;i<urlStr.length;i++){
+                        var item = urlStr[i].split("=")
+                        urlparams[item[0]]=item[1]
+                    }
+                    return urlparams;
+                }  
+            }
+
+        })
+    </script>
+</body>
+</html>

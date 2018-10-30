@@ -1,0 +1,362 @@
+.max-wrapper {
+    background-color: #f1f1f1;
+    border-top: 1px solid #f1f1f1;
+    padding-bottom: 80px;
+    clear: both;
+    position: relative;
+    top: -1px
+}
+
+.max-wrapper .wrapper {
+    position: relative
+}
+
+.max-wrapper .menu {
+    background-color: #fff;
+    width: 255px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2)
+}
+
+.max-wrapper .menu_fixed {
+    position: fixed;
+    top: 15px
+}
+
+.max-wrapper .menu_abs {
+    position: absolute;
+    top: auto;
+    bottom: 0
+}
+
+.max-wrapper .menu li {
+    border-bottom: 1px solid #f5f5f5;
+    line-height: 60px
+}
+
+.max-wrapper .menu li a {
+    font-size: 18px;
+    color: #555
+}
+
+.max-wrapper .menu li i {
+    background: url(../../img/aboutUs/about-us-icon.png) no-repeat;
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    top: 3px;
+    margin-left: 22px
+}
+
+.max-wrapper .menu li.aboutLj.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li.aboutLj.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li.aboutLj.hover i {
+    background-position: -32px 0
+}
+
+.max-wrapper .menu li.dreamLj i {
+    background-position: 0 -22px
+}
+
+.max-wrapper .menu li.dreamLj.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li.dreamLj.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li.dreamLj.hover i {
+    background-position: -32px -22px
+}
+
+.max-wrapper .menu li.eventLj i {
+    background-position: 0 -47px
+}
+
+.max-wrapper .menu li.eventLj.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li.eventLj.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li.eventLj.hover i {
+    background-position: -32px -47px
+}
+
+.max-wrapper .menu li.joinLj i {
+    background-position: 0 -69px
+}
+
+.max-wrapper .menu li.contactLj i {
+    background-position: 0 -92px
+}
+
+.max-wrapper .menu li.contactLj.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li.contactLj.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li.contactLj.hover i {
+    background-position: -32px -92px
+}
+
+.max-wrapper .menu li.statementLj i {
+    background-position: 0 -115px
+}
+
+.max-wrapper .menu li.statementLj.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li.statementLj.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li.statementLj.hover i {
+    background-position: -32px -115px
+}
+
+.max-wrapper .menu li dl {
+    margin-bottom: 15px
+}
+
+.max-wrapper .menu li dl dd {
+    height: 30px;
+    line-height: 30px;
+    padding-left: 55px
+}
+
+.max-wrapper .menu li dl dd.hover {
+    background-color: #4fac6a
+}
+
+.max-wrapper .menu li dl dd.hover a {
+    color: #fff
+}
+
+.max-wrapper .menu li dl dd a {
+    font-size: 14px;
+    color: #888
+}
+
+.max-wrapper .count {
+    width: 650px;
+    background-color: #fff;
+    padding: 30px 40px;
+    position: relative;
+    min-height: 400px;
+    height: auto;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2)
+}
+
+.max-wrapper .count strong {
+    font-weight: bold
+}
+
+.max-wrapper .count p.cunn {
+    font-weight: 700;
+    padding-top: 20px
+}
+
+.max-wrapper .count .fix-top {
+    position: fixed;
+    top: 60%;
+    right: 5%;
+    display: none
+}
+
+.max-wrapper .count .fix-top a {
+    display: block;
+    width: 55px;
+    height: 46px;
+    background-color: #cdcbcb;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 3px;
+    text-align: center;
+    line-height: 46px
+}
+
+.max-wrapper .count .fix-top a.top-01 {
+    line-height: 18px;
+    padding: 5px 8px;
+    height: 36px;
+    width: 39px
+}
+
+.max-wrapper .count .title {
+    font-size: 22px;
+    color: #333
+}
+
+.max-wrapper .count .name {
+    color: #333;
+    font-size: 22px;
+    height: 75px;
+    border-bottom: 1px solid #f5f5f5
+}
+
+.max-wrapper .count .cunn {
+    color: #555;
+    font-weight: normal
+}
+
+.max-wrapper .count .cunn span {
+    width: 80px;
+    display: block;
+    float: left;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: right;
+    margin-right: 8px
+}
+
+.max-wrapper .count .cunn p {
+    float: right;
+    color: #555;
+    width: 562px
+}
+
+.max-wrapper .count p {
+    line-height: 32px;
+    font-size: 16px;
+    color: #555
+}
+
+.max-wrapper .count p i {
+    color: red;
+    display: block
+}
+
+.max-wrapper .count p span {
+    margin-right: 8px;
+    min-width: 80px;
+    display: inline-block;
+    text-align: right
+}
+
+.max-wrapper .count p span.tsp {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #999;
+    width: 100%;
+    text-align: left
+}
+
+.max-wrapper .count p.title {
+    color: #333;
+    margin: 30px 0;
+    font-size: 16px
+}
+
+.max-wrapper .count p img {
+    margin-top: 20px
+}
+
+.max-wrapper .count .contactUs {
+    padding: 35px 0 20px 0
+}
+
+.max-wrapper .count .contactUs p {
+    line-height: 25px
+}
+
+.max-wrapper .count .contactUs img {
+    margin: 20px 0
+}
+
+.max-wrapper .count .contactUs strong,.max-wrapper .count .contactUs h1 {
+    font-size: 16px;
+    font-weight: bold
+}
+
+.max-wrapper .count .mails {
+    margin: 0 auto;
+    text-align: center;
+    height: 100px;
+    position: relative;
+    top: -20px;
+    padding-top: 65px;
+    font-size: 16px;
+    color: #333
+}
+
+.max-wrapper .count .mails a {
+    display: block;
+    background-color: #dd6743;
+    width: 197px;
+    height: 47px;
+    margin: 0 auto;
+    line-height: 47px;
+    color: #fff;
+    margin-top: 20px;
+    border-radius: 3px;
+    text-decoration: none
+}
+
+.max-wrapper .count .directory {
+    border-bottom: 1px solid #f5f5f5;
+    border-top: 1px solid #f5f5f5;
+    padding: 35px 0;
+    margin-top: 10px
+}
+
+.max-wrapper .count .directory .directory-box {
+    margin-top: 10px
+}
+
+.max-wrapper .count .directory .fl {
+    width: 120px;
+    text-align: left
+}
+
+.max-wrapper .count .directory .fr {
+    width: 525px
+}
+
+.max-wrapper .count .directory .fr li {
+    float: left;
+    width: 175px;
+    height: 30px
+}
+
+.max-wrapper .count .directory .fr li a {
+    color: #009de8
+}
+
+.max-wrapper .count .info h2 {
+    margin-top: 35px;
+    font-size: 22px;
+    color: #333
+}
+
+.max-wrapper .count .info-p {
+    margin-top: 20px;
+    text-indent: 2em
+}
+
+.max-wrapper .count .contact {
+    padding: 25px 0
+}
+
+.max-wrapper .yinsi {
+    width: 980px;
+    margin: 20px auto
+}

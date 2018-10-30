@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>世华易居</title>
+</head>
+<style>
+        * {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+                list-style: none;
+        }
+
+        header {
+                width: 100%;
+                background: #333333;
+                color: #828282;
+                position: relative;
+                height: 2rem;
+                margin-top: -2rem;
+                display: none;
+                transition: all 1s;
+        }
+
+        header>p {
+                width: 70%;
+                margin: auto;
+                line-height: 1.5;
+                padding-top: 0.6rem;
+                font-size: 0.26rem;
+        }
+
+        header>img {
+                position: absolute;
+                top: 0.2rem;
+                right: 0.4rem;
+                width: 0.6rem;
+        }
+
+        .logoimg {
+                width: 3rem;
+                height: 3rem;
+                margin: auto;
+                margin-top: 1.5rem;
+                text-align: center;
+                line-height: 3rem;
+                border-radius: 50%;
+                box-shadow: 0 -10px 10px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .logoimg>img {
+                width: 1.8rem;
+                margin-top: 0.6rem;
+                height: 1.8rem;
+        }
+
+        .animglogo {
+                width: 100%;
+                text-align: center;
+                margin-top: 0.6rem;
+        }
+
+        .animglogo>span {
+                vertical-align: middle;
+                font-size: 0.5rem;
+        }
+
+        .animglogo>img {
+                width: 0.8rem;
+                vertical-align: middle;
+        }
+
+        .ul_1 {
+                width: 100%;
+                list-style: none;
+                margin-top: 0.1rem;
+        }
+
+        .ul_1>li {
+                width: 100%;
+                text-align: center;
+                line-height: 1.5;
+                font-size: 0.3rem;
+                color: #666666;
+        }
+
+        .ul_1>li>span:nth-of-type(1) {
+                margin-right: 0.2rem;
+        }
+
+        #erweima {
+                width: 2.5rem;
+                height: 2.5rem;
+                display: block;
+                margin: auto;
+                margin-top: 0.5rem;
+        }
+
+        #btn {
+                width: 4rem;
+                padding: 0.3rem 0;
+                text-align: center;
+                font-size: 0.32rem;
+                color: #ffffff;
+                background: rgb(40, 202, 173);
+                margin: auto;
+                margin-top: 1rem;
+                border-radius: 0.4rem;
+        }
+
+        .shuoming {
+                width: 100%;
+                text-align: center;
+                font-size: 0.3rem;
+                color: #666666;
+                margin-top: 0.7rem;
+        }
+
+        .shuomingtwo {
+                width: 100%;
+                text-indent: 0.5rem;
+                font-size: 0.4rem;
+                margin-top: 1rem;
+        }
+
+        .contenttwo {
+                margin: 0.4rem 0.5rem;
+                font-size: 0.3rem;
+                color: #cacaca;
+                background: rgb(242, 246, 248);
+                padding: 0.4rem 0;
+        }
+
+        .contenttwo>p {
+                margin: 0 0.3rem;
+                line-height: 1.5;
+        }
+</style>
+
+<body>
+        <div id="app">
+                <header>
+                        <p>
+                                点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装
+                        </p>
+                        <img src="./imgs/jiantou.png" alt="">
+                </header>
+                <div class="logoimg">
+                        <img src="./imgs/logo.png" alt="">
+                </div>
+                <div class="animglogo">
+                        <img src="./imgs/anlogo.png" alt="">
+                        <span>世华易居</span>
+
+                </div>
+                <ul class="ul_1">
+                        <li>更新时间：{{data.createDateTime}}</li>
+                        <li>版本：{{data.appVerison}}</li>
+
+                </ul>
+                <img id="erweima" src="./imgs/erweima.png" alt="">
+                <div id="btn" @click="btn">点击安装</div>
+                <p class="shuoming">或者用手机扫描二维码安装</p>
+                <div class="shuomingtwo">更新说明</div>
+                <div class="contenttwo">
+                        <p>{{data.versionContent}}</p>
+
+                </div>
+        </div>
+
+</body>
+<script src="../../js/axios.min.js"></script>
+<script src="../../js/response.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/axiosurl.js"></script>
+
+</html>
+<script>
+        var vm = new Vue({
+                el: '#app',
+                data: {
+                        data: ""
+                },
+                created() {
+                        this._querys();
+                        this.animation();
+                },
+                methods: {
+                        _querys() {
+                                axios.post(GENERALIZE)
+                                        .then(res => {
+                                                this.data = res.data.data
+                                        })
+                        },
+                        animation(){
+                                if(this.isWeiXin()){
+                                        var header = document.querySelector("header");
+                                        header.style.marginTop="0";
+                                        header.style.display="block"
+                                }
+                        },
+                        btn(){
+                                if(!this.isWeiXin()){
+                                        window.location.href=this.data.versionUrl
+                                }else{
+                                        alert("点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装")
+                                }
+                        },
+                        //判断是否是微信浏览器的函数
+                        isWeiXin(){
+                        //window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+                        var ua = window.navigator.userAgent.toLowerCase();
+                        //通过正则表达式匹配ua中是否含有MicroMessenger字符串
+                        if(ua.match(/MicroMessenger/i) == 'micromessenger') {
+                                return true;
+                        }else{
+                                return false;
+                        }
+                }
+                }
+        }) 
+</script>

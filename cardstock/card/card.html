@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>积分兑换</title>
+</head>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		line-height: 1;
+	}
+
+	.bar {
+		height: 0.9rem;
+		border-bottom: 0;
+		background-color: white;
+		box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+		-webkit-backface-visibility: hidden;
+	}
+
+	.icon {
+		width: 0.19rem;
+		height: 0.36rem;
+		line-height: 0.36rem;
+		margin-left: 0.4rem;
+		float: left;
+		position: fixed;
+		z-index: 999;
+	}
+
+	.icon img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.title {
+		font-size: 0.4rem;
+		line-height: 0.9rem;
+		position: absolute;
+		display: block;
+		width: 100%;
+		padding: 0;
+		text-align: center;
+		white-space: nowrap;
+		font-weight: bold;
+		color: #222222;
+	}
+
+	.box {
+		width: 100%;
+		height: 100%;
+		padding-top: 0.38rem;
+	}
+
+	.card {
+		width: 3.2rem;
+		margin-left: 0.35rem;
+		float: left;
+		overflow: hidden;
+
+	}
+
+	.cardimg {
+		width: 3.2rem;
+		height: 2.53rem;
+		background: url("../card/imgs/card.png");
+		background-size: cover;
+
+	}
+
+	.cardimg>img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.msg {
+		font-size: 0.12rem;
+		margin-bottom: 0.5rem;
+
+	}
+
+	.msg>div {
+		padding: 0.15rem 0;
+		 overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+	}
+
+	.msg>div:nth-child(1) {
+		height: 0.25rem;
+		font-size: 0.32rem;
+		color: #ff4343;
+	}
+
+	.msg>div:nth-child(2) {
+		height: 0.20rem;
+		font-size: 0.30rem;
+		color: #333333;
+	}
+
+	.msg>div:nth-child(3) {
+		height: 0.15rem;
+		font-size: 0.24rem;
+		color: #999999;
+	}
+</style>
+
+<body>
+	<div id="app">
+		<!-- <header class="bar">
+			<div class="icon">
+				<img @click="gobackbtn()" src="../card/imgs/fanhui.png">
+			</div> 
+			<div class="title">积分兑换</div>
+		</header> -->
+		<div class="box">
+			<div class="card" v-for="item in list" @click="btnitem(item)">
+				<div class="cardimg">
+					<img :src="item.imageUrl" alt="">
+				</div>
+				<div class="msg">
+					<div>{{item.name}}</div>
+					<div>积分：{{item.score}}</div>
+					<div>已兑{{item.soldNumber}}个</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="../../js/axios.min.js"></script>
+<script src="../../js/response.js"></script>
+<script src="../../js/vue.min.js"></script>
+<script src="../../js/axiosurl.js"></script>
+
+</html>
+<script>
+	//接口传参 url?token=d2ViX2U5ZjdkYWJmLTFhNDYtNDdmMC04ZjA5LTRiNzlhMDJlYmMzMF8w&scity=beihai&type=web
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			list: [],
+			token: "",
+			scity: "",
+			type:"web",
+		},
+		created() {
+			var url = location.href;
+			var urlparams = this.parseUrl(url);
+			this.token = urlparams.token;
+			this.type = urlparams.type;
+			window.localStorage.token_h5 = this.token
+			this.scity = urlparams.scity;
+			window.localStorage.scityn_h5 = this.scity
+			this._querys();
+		},
+		methods: {
+			btnitem: function (item) {
+				window.location.href = "../integraljuan/index.html?exchangeId=" + item.exchangeId;
+			},
+			// gobackbtn: function () {
+			// 	console.log("ddddddddddd")
+			// 	var url = "scheme://host/pathPrefix"
+			// 	switch (this.type) {
+			// 		case 'web': return location.href = "http://custapp.shyj.cn/integral";
+			// 		case 'ios': return location.href = url;
+			// 		case 'android': return location.href = url;
+			// 	}
+			// },
+			_querys() {
+				axios.post(SCOREGIFT + "?pageNo=1&pageSize=10")
+					.then(res => {
+						this.list.push(...res.data.data)
+					})
+			},
+			parseUrl(url) {
+				var urlStr = url.split("?")[1].split("&");
+				var urlparams = {};
+				for (let i = 0; i < urlStr.length; i++) {
+					var item = urlStr[i].split("=")
+					urlparams[item[0]] = item[1]
+				}
+				return urlparams;
+			}
+		}
+	}) 
+</script>

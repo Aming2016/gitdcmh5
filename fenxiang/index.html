@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=on" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请好友</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .title {
+            width: 100%;
+            background: #333333;
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.38rem;
+            padding: 0.2rem 0;
+            position:fixed;
+            z-index: 888;
+        }
+
+        .imgcontent {
+            width: 100%;
+            height: 6.17rem;
+            padding-top: 0.5rem;
+            position: relative;
+            padding-top:1.2rem;
+        }
+
+        .imgcontent>img {
+            height: 100%;
+            width: 100%;
+            display: inline-block;
+        }
+
+        .imgcontent>div {
+            position: absolute;
+            font-size: 0.38rem;
+            top: 40%;
+            left: 50%;
+        }
+
+        .imgcontent>div>p:nth-of-type(1) {
+            font-weight: bold;
+        }
+
+        .classname {
+            width: 100%;
+            font-size: 0.32rem;
+            text-align: center;
+        }
+
+        .classname>span {
+            color: #ff4343;
+        }
+
+        .classnametwo {
+            margin-top: 0.1rem;
+        }
+
+        .phonnumber {
+            width: 6.42rem;
+            height: 0.9rem;
+            margin-top: 0.6rem;
+            display: inline-block;
+            margin: 0 auto;
+            margin-left: 0.55rem;
+            background: #ffecec;
+            border: none;
+            text-indent: 0.2rem;
+            border-radius: 0.1rem;
+        }
+
+        .codebox {
+            width: 100%;
+            margin-top: 0.3rem;
+            overflow: hidden;
+        }
+
+        .codebox>input {
+            width: 4.2rem;
+            height: 0.9rem;
+            background: #ffecec;
+            text-indent: 0.2rem;
+            border-radius: 0.1rem;
+            float: left;
+        }
+
+        .codebtn {
+            float: left;
+            width: 2.02rem;
+            background: #ff4343;
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.3rem;
+            margin-left: 0.2rem;
+            padding: 0.24rem 0;
+            border-radius: 0.1rem;
+            border: none;
+        }
+
+        .bottomcontent {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .bottomcontent>li {
+            width: 50%;
+            float: left;
+            list-style: none;
+            text-align: center;
+        }
+
+        .bottomcontent>li>img {
+            width: 2.2rem;
+            height: 2.2rem;
+        }
+
+        .bottomcontent>li>p {
+            font-size: 0.3rem;
+
+        }
+
+        .btn {
+            width: 6.42rem;
+            text-align: center;
+            font-size: 0.3rem;
+            margin: auto;
+            color: #ffffff;
+            background: #ff4343;
+            padding: 0.2rem 0;
+            border-radius: 0.1rem;
+            margin-top: 2rem;
+        }
+
+        .warpbox {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            display: none;
+        }
+
+        .alert {
+            width: 5.63rem;
+            height: 3.65rem;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -1.825rem;
+            margin-left: -2.815rem;
+            background: #ffffff;
+            border-radius: 0.2rem;
+        }
+
+        .alerttitle {
+            width: 100%;
+            text-align: center;
+            padding: 0.2rem 0;
+            font-size: 0.34rem;
+            border-bottom: 0.005rem solid #cacaca;
+        }
+
+        .alerttitle>img {
+            width: 0.4rem;
+            height: 0.4rem;
+            vertical-align: middle;
+            margin-right: 0.3rem;
+        }
+
+        .alerttitle>span {
+            vertical-align: middle;
+        }
+
+        .ul_1 {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 0.3rem;
+        }
+
+        .ul_1>li {
+            width: 50%;
+            float: left;
+            height: 1.44rem;
+            list-style: none;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .ul_1>li:nth-of-type(1) {
+            border-right: 0.005rem solid #cacaca;
+            box-sizing: border-box;
+        }
+
+        .ul_1>li>img {
+            width: 1.44rem;
+            height: 1.44rem;
+        }
+
+        .div_3 {
+            width: 100%;
+            margin-top: 0.2rem;
+            font-size: 0.22rem;
+            color: #999999;
+            overflow: hidden;
+        }
+
+        .div_3>p {
+            width: 50%;
+            float: left;
+            text-align: center;
+        }
+
+        .password {
+            float: left;
+            margin-top: 0.3rem !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="warpbox">
+        <div class="alert">
+            <div class="alerttitle">
+                <img src="imgs/gou.png" alt="">
+                <span>注册成功</span>
+            </div>
+            <ul class="ul_1">
+                <li>
+                    <img src="imgs/appone.png" alt="">
+                </li>
+                <li>
+                    <img src="imgs/gongzhongh.jpg" alt="">
+                </li>
+            </ul>
+            <div class="div_3">
+                <p>世华易居APP</p>
+                <p>世华易居公众号</p>
+            </div>
+        </div>
+    </div>
+    <div class="title">世华易居</div>
+    <div class="imgcontent">
+        <img src="./imgs/imgone.png" alt="">
+        <div>
+            <p>世华易居APP</p>
+            <p>全新上线</p>
+        </div>
+    </div>
+    <div class="classname">您的好友
+        <span class="username">张三</span>
+    </div>
+    <div class="classname classnametwo">邀您一起来世华易居来找房</div>
+    <input type="number" class="phonnumber" placeholder="请输入您的手机号码">
+    <div class="codebox">
+        <input type=" text" class="phonnumber codeid" placeholder="请输入手机验证码">
+        <p class="codebtn">获取验证码</p>
+    </div>
+    <input type="password" class="phonnumber password" placeholder="请设置6~12位登录密码">
+    <div class='btn'>立即注册</div>
+    <ul class="bottomcontent">
+        <li>
+            <img src="imgs/appone.png" alt="">
+            <p>世华易居APP</p>
+        </li>
+        <li>
+            <img src="imgs/gongzhongh.jpg" alt="">
+            <p>世华易居公众号</p>
+        </li>
+    </ul>
+</body>
+<script src="js/axios.min.js"></script>
+<script src="js/response.js"></script>
+<script src="js/md5.js"></script>
+<script>
+    //name=李三&code=1312
+    var urls = location.href;//获取的url
+    var username = document.querySelector(".username");//汉字姓名
+    var codebtn = document.querySelector(".codebtn");//发送验证码按钮
+    var phonnumber = document.querySelector(".phonnumber");//手机号码
+    var codeid = document.querySelector(".codeid");//获取的验证码
+    var passwords = document.querySelector(".password")//获取密码
+    var btn = document.querySelector(".btn");//注册按钮
+    var warpbox = document.querySelector(".warpbox");//注册成功弹出层
+    var time = 60;//倒计时时间
+    var code = parseUrl(urls).code;//url返回的code
+    var name = decodeURI(parseUrl(urls).name);//url返回的名字
+    username.innerHTML = name;
+    function parseUrl(url) {
+        var urlStr = url.split("?")[1].split("&");
+        var urlparams = {};
+        for (let i = 0; i < urlStr.length; i++) {
+            var item = urlStr[i].split("=")
+            urlparams[item[0]] = item[1]
+        }
+        return urlparams;
+    };
+    codebtn.onclick = function () {//发送验证码
+        console.log(phonnumber.value)
+        if (codebtn.innerHTML == '获取验证码') {
+            if (phonnumber.value.length == 11) {
+                codemove();//改变发送验证码样式
+                queryscode();//发送验证码
+            } else {
+                alert("输入的手机号码不正确")
+            }
+        }
+    };
+    //注册按钮
+    btn.onclick = function () {
+        if (phonnumber.value.length == 11) {
+            if (codeid.value) {
+                if (/^[A-Za-z0-9]{6,12}$/.test(passwords.value)) {
+                    qureys();
+                } else {
+                    alert("密码必须为6-12为，且字母开头");
+                }
+            } else {
+                alert("请输入验证码")
+            }
+        } else {
+            alert("手机号码不正确")
+        }
+    };
+    //点击弹出层
+    warpbox.onclick=function(){
+        warpbox.style.display="none"
+    };
+    //发送注册账号
+    function qureys() {
+        axios.post("http://custapi.shyj.cn/custAppApi/member/register", {
+            deviceCode: "web",
+            mobile: phonnumber.value,
+            smsCode: codeid.value,
+            password: passwords.value,
+            recommendPerson:code
+        })
+            .then((res) => {
+                if (res.data.status == "1") {
+                    warpbox.style.display="block"
+                } else {
+                    alert(res.data.msg)
+                }
+            })
+    };
+    //发送验证码请求
+    function queryscode() {
+        var str = phonnumber.value + "29e94f94-8664-48f2-a4ff-7a5807e13b68";
+        var sign = md5(str)
+        axios.post('http://custapi.shyj.cn/custAppApi/member/fetchSmsCode', {
+            mobile: phonnumber.value,
+            operateType: "REGISTER",
+            sign: sign
+        })
+            .then(res => {
+                console.log(res)
+                if (res.status == "200") {
+                    alert(res.data.msg)
+                }
+            })
+    };
+    //改变code验证码样式
+    function codemove() {
+        var setterval = setInterval(function () {
+            codebtn.innerHTML = time + "s";
+            time--
+            if (time == '-2') {
+                clearInterval(setterval)
+                codebtn.innerHTML = '获取验证码';
+                time = 60;
+            }
+        }, 1000)
+    };
+</script>
+
+</html>
